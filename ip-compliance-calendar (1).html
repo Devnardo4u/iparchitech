@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IP Architech™ — Compliance Calendar Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07070C;
+  --bg2: #0D0D15;
+  --card: #0F0F18;
+  --card2: #13131E;
+  --border: #1A1A2A;
+  --border2: #242438;
+  --gold: #C8A96E;
+  --gold-light: #E2C98A;
+  --gold-dim: #7A6340;
+  --gold-pale: rgba(200,169,110,0.08);
+  --text: #EDE9E0;
+  --muted: #52506A;
+  --muted2: #8A8699;
+  --danger: #D94F4F;
+  --warning: #E09B3D;
+  --success: #3DBD8F;
+  --info: #4A9EDB;
+  --white: #F5F2EC;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px;}
+
+/* TOP NAV */
+.topbar{background:rgba(7,7,12,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 28px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.topbar-logo-text{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;}
+.topbar-nav{display:flex;gap:2px;}
+.nav-btn{padding:7px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted2);cursor:pointer;border:none;background:transparent;transition:all 0.2s;border-bottom:2px solid transparent;}
+.nav-btn:hover{color:var(--gold);}
+.nav-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.demo-badge{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:4px 10px;}
+
+/* PERSONALIZATION BAR */
+.persona-bar{background:rgba(200,169,110,0.06);border-bottom:1px solid rgba(200,169,110,0.15);padding:10px 28px;display:flex;align-items:center;gap:16px;}
+.persona-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-dim);white-space:nowrap;}
+.persona-input{background:transparent;border:none;border-bottom:1px solid var(--gold-dim);color:var(--gold-light);font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;padding:2px 8px;outline:none;width:220px;transition:border-color 0.2s;}
+.persona-input:focus{border-bottom-color:var(--gold);}
+.persona-input::placeholder{color:var(--muted);}
+.persona-sep{color:var(--border2);font-size:20px;}
+
+/* MAIN */
+.main{padding:20px 28px;display:flex;flex-direction:column;gap:18px;}
+
+/* STAT ROW */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);}
+.stat-card{background:var(--card);padding:18px 22px;position:relative;overflow:hidden;transition:background 0.2s;}
+.stat-card:hover{background:var(--card2);}
+.stat-card.critical{border-top:2px solid var(--danger);}
+.stat-card.gold-top{border-top:2px solid var(--gold);}
+.stat-icon-row{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:4px;}
+.stat-val.danger{color:var(--danger);}
+.stat-val.success{color:var(--success);}
+.stat-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+
+/* IP SCORE */
+.score-ring-wrap{display:flex;align-items:center;gap:16px;}
+.score-ring{position:relative;width:56px;height:56px;}
+.score-ring svg{transform:rotate(-90deg);}
+.score-ring-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:400;color:var(--gold);}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);}
+.grid-3{display:grid;grid-template-columns:2fr 1fr;gap:2px;background:var(--border);}
+.card{background:var(--card);padding:22px;}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--white);margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.card-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:14px;}
+
+/* TABLE */
+.cal-table{width:100%;border-collapse:collapse;}
+.cal-table th{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);}
+.cal-table td{padding:11px 10px;font-size:13px;color:var(--muted2);border-bottom:1px solid var(--border);transition:background 0.15s;}
+.cal-table tr:hover td{background:rgba(200,169,110,0.03);}
+.cal-table tr:last-child td{border-bottom:none;}
+.asset-name-cell{color:var(--text);font-weight:400;display:flex;align-items:center;gap:8px;}
+.asset-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* BADGES */
+.badge{display:inline-block;padding:3px 9px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;}
+.badge-active{background:rgba(61,189,143,0.12);color:var(--success);border:1px solid rgba(61,189,143,0.3);}
+.badge-warning{background:rgba(224,155,61,0.12);color:var(--warning);border:1px solid rgba(224,155,61,0.3);}
+.badge-danger{background:rgba(217,79,79,0.12);color:var(--danger);border:1px solid rgba(217,79,79,0.3);}
+.badge-info{background:rgba(74,158,219,0.12);color:var(--info);border:1px solid rgba(74,158,219,0.3);}
+.badge-gold{background:rgba(200,169,110,0.12);color:var(--gold);border:1px solid rgba(200,169,110,0.3);}
+.badge-complete{background:rgba(61,189,143,0.08);color:var(--success);border:1px solid rgba(61,189,143,0.2);}
+
+/* ACTION BUTTONS */
+.action-btn{padding:5px 12px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--muted2);transition:all 0.2s;}
+.action-btn:hover{border-color:var(--gold);color:var(--gold);}
+.action-btn.primary{background:var(--gold);color:var(--bg);border-color:var(--gold);}
+.action-btn.primary:hover{background:var(--gold-light);}
+.action-btn.danger{background:rgba(217,79,79,0.1);color:var(--danger);border-color:rgba(217,79,79,0.3);}
+
+/* GANTT CHART */
+.gantt-wrap{overflow-x:auto;margin-top:4px;}
+.gantt-grid{min-width:700px;}
+.gantt-header{display:grid;grid-template-columns:120px repeat(12,1fr);gap:0;margin-bottom:2px;}
+.gantt-month{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:center;padding:4px 2px;}
+.gantt-row{display:grid;grid-template-columns:120px repeat(12,1fr);gap:0;margin-bottom:3px;align-items:center;}
+.gantt-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted2);padding-right:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gantt-cell{height:24px;position:relative;}
+.gantt-bar{height:100%;border-radius:2px;display:flex;align-items:center;padding:0 8px;font-family:'DM Mono',monospace;font-size:8px;color:rgba(255,255,255,0.8);white-space:nowrap;overflow:hidden;cursor:pointer;transition:opacity 0.2s;}
+.gantt-bar:hover{opacity:0.8;}
+.gantt-bar.trademark{background:linear-gradient(90deg,rgba(200,169,110,0.6),rgba(200,169,110,0.4));}
+.gantt-bar.patent{background:linear-gradient(90deg,rgba(217,79,79,0.7),rgba(217,79,79,0.5));}
+.gantt-bar.secret{background:linear-gradient(90deg,rgba(74,158,219,0.6),rgba(74,158,219,0.4));}
+.gantt-bar.license{background:linear-gradient(90deg,rgba(61,189,143,0.6),rgba(61,189,143,0.4));}
+.gantt-bar.domain{background:linear-gradient(90deg,rgba(224,155,61,0.6),rgba(224,155,61,0.4));}
+
+/* MINI CALENDAR */
+.mini-cal{width:100%;}
+.mini-cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.mini-cal-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;color:var(--white);}
+.mini-cal-nav{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:2px 6px;transition:color 0.2s;}
+.mini-cal-nav:hover{color:var(--gold);}
+.mini-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.mini-cal-day-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:center;padding:4px 0;}
+.mini-cal-day{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2);text-align:center;padding:6px 2px;cursor:pointer;transition:all 0.15s;border-radius:2px;position:relative;}
+.mini-cal-day:hover{background:var(--gold-pale);color:var(--gold);}
+.mini-cal-day.today{background:var(--gold);color:var(--bg);font-weight:400;}
+.mini-cal-day.has-event::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--danger);}
+.mini-cal-day.has-event-gold::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--gold);}
+.mini-cal-day.empty{opacity:0;}
+
+/* ALERTS */
+.alert-item{display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-bottom:1px solid var(--border);}
+.alert-item:last-child{border-bottom:none;}
+.alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.alert-dot.critical{background:var(--danger);}
+.alert-dot.moderate{background:var(--warning);}
+.alert-dot.info{background:var(--info);}
+.alert-text{font-size:12px;color:var(--muted2);line-height:1.5;}
+.alert-tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:2px;}
+.alert-tag.critical{color:var(--danger);}
+.alert-tag.moderate{color:var(--warning);}
+.alert-tag.info{color:var(--info);}
+
+/* COST CALCULATOR */
+.calc-wrap{display:flex;flex-direction:column;gap:12px;}
+.calc-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
+.calc-row:last-child{border-bottom:none;}
+.calc-label{font-size:13px;color:var(--muted2);}
+.calc-value{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--danger);}
+.calc-value.safe{color:var(--success);}
+.calc-total{background:rgba(217,79,79,0.07);border:1px solid rgba(217,79,79,0.2);padding:16px;text-align:center;margin-top:8px;}
+.calc-total-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.calc-total-val{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--danger);}
+
+/* AUDIT REMINDER */
+.audit-box{background:rgba(200,169,110,0.06);border:1px solid rgba(200,169,110,0.2);padding:16px;}
+.audit-date{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin-top:4px;}
+
+/* ACTION BAR */
+.action-bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
+
+/* BOOK CTA */
+.book-cta{background:linear-gradient(135deg,rgba(200,169,110,0.1),rgba(200,169,110,0.05));border:1px solid rgba(200,169,110,0.25);padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.book-cta-text{}
+.book-cta-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--white);margin-bottom:6px;}
+.book-cta-sub{font-size:13px;color:var(--muted2);line-height:1.6;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(7,7,12,0.88);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--card);border:1px solid var(--border2);padding:36px;max-width:460px;width:90%;transform:translateY(16px);transition:transform 0.3s;position:relative;}
+.modal-overlay.open .modal{transform:translateY(0);}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--white);margin-bottom:8px;}
+.modal-sub{font-size:13px;color:var(--muted2);line-height:1.75;margin-bottom:20px;}
+.modal-close{position:absolute;top:14px;right:16px;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:18px;}
+.modal-close:hover{color:var(--gold);}
+
+/* EXPORT PREVIEW */
+.export-preview{background:var(--bg2);border:1px solid var(--border);padding:16px;margin-bottom:20px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2);line-height:1.8;}
+.export-preview .highlight{color:var(--gold);}
+
+/* INSIGHT ROW */
+.insight-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--muted2);line-height:1.6;}
+.insight-row:last-child{border-bottom:none;}
+.insight-dot{width:18px;height:18px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scoreAnim{from{stroke-dashoffset:283;}to{stroke-dashoffset:var(--target-offset);}}
+.fade-in{animation:fadeUp 0.4s ease both;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .grid-2,.grid-3{grid-template-columns:1fr;}
+  .topbar-nav{display:none;}
+  .main{padding:14px;}
+  .gantt-grid{min-width:500px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="topbar">
+  <a href="https://iparchitech.com" class="topbar-logo" style="text-decoration:none;">
+    <svg width="24" height="26" viewBox="0 0 80 88" fill="none">
+      <path d="M6 10 L40 2 L74 10 L74 58 Q74 80 40 86 Q6 80 6 58 Z" fill="#07070C" stroke="#C8A96E" stroke-width="2"/>
+      <path d="M40 22 L26 64 M40 22 L54 64 M30 50 L50 50" stroke="#C8A96E" stroke-width="3" stroke-linecap="round"/>
+      <rect x="36" y="15" width="8" height="8" fill="#C8A96E" transform="rotate(45 40 19)"/>
+    </svg>
+    <span class="topbar-logo-text">IP Architech™</span>
+  </a>
+  <div class="topbar-nav">
+    <button class="nav-btn" onclick="window.open('https://devnardo4u.github.io/iparchitech/dashboard-demo.html','_self')">IP Dashboard</button>
+    <button class="nav-btn active">Compliance Calendar</button>
+    <button class="nav-btn" onclick="openBookModal()">Book a Call</button>
+  </div>
+  <div class="topbar-right">
+    <span class="demo-badge">Live Demo</span>
+  </div>
+</div>
+
+<!-- PERSONALIZATION BAR -->
+<div class="persona-bar">
+  <span class="persona-label">Viewing as:</span>
+  <input class="persona-input" id="clientName" type="text" placeholder="Enter your business name..." oninput="updateClientName(this.value)" value="Sample Business Co.">
+  <span class="persona-sep">|</span>
+  <span class="persona-label">IP Health Score:</span>
+  <div class="score-ring-wrap">
+    <div class="score-ring">
+      <svg width="56" height="56" viewBox="0 0 56 56">
+        <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(200,169,110,0.15)" stroke-width="4"/>
+        <circle cx="28" cy="28" r="22" fill="none" stroke="#C8A96E" stroke-width="4" stroke-linecap="round"
+          stroke-dasharray="138" stroke-dashoffset="28" id="scoreCircle" style="transition:stroke-dashoffset 1s ease;"/>
+      </svg>
+      <div class="score-ring-text" id="scoreText">80</div>
+    </div>
+    <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted2);">/ 100</span>
+  </div>
+  <span class="persona-sep">|</span>
+  <span id="riskCalc" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--danger);">$127,000 at risk</span>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- DEMO BANNER -->
+  <div style="background:rgba(200,169,110,0.06);border:1px solid rgba(200,169,110,0.15);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-dim);">✦ Demo Mode — Sample data shown · Your calendar built with your actual IP assets</span>
+    <button class="action-btn primary" onclick="openBookModal()">Get My Custom Calendar →</button>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="stats-row fade-in">
+    <div class="stat-card gold-top">
+      <div class="stat-icon-row">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="9" stroke="#C8A96E" stroke-width="0.8"/><line x1="1" y1="4" x2="11" y2="4" stroke="#C8A96E" stroke-width="0.8"/><line x1="4" y1="1" x2="4" y2="3" stroke="#C8A96E" stroke-width="0.8"/><line x1="8" y1="1" x2="8" y2="3" stroke="#C8A96E" stroke-width="0.8"/></svg>
+        Upcoming Renewals
+      </div>
+      <div class="stat-val" id="renewalCount">7</div>
+      <div class="stat-lbl">Next 12 months</div>
+    </div>
+    <div class="stat-card critical">
+      <div class="stat-icon-row">⚠ Critical Deadlines</div>
+      <div class="stat-val danger">4</div>
+      <div class="stat-lbl">Need immediate action</div>
+    </div>
+    <div class="stat-card gold-top">
+      <div class="stat-icon-row">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#C8A96E" stroke-width="0.8"/><path d="M6 3 L6 6 L8 8" stroke="#C8A96E" stroke-width="0.8" stroke-linecap="round"/></svg>
+        Compliance Health
+      </div>
+      <div class="score-ring-wrap" style="margin-top:4px;">
+        <div class="score-ring" style="width:48px;height:48px;">
+          <svg width="48" height="48" viewBox="0 0 48 48">
+            <circle cx="24" cy="24" r="18" fill="none" stroke="rgba(200,169,110,0.15)" stroke-width="3"/>
+            <circle cx="24" cy="24" r="18" fill="none" stroke="#C8A96E" stroke-width="3" stroke-linecap="round"
+              stroke-dasharray="113" stroke-dashoffset="10"/>
+          </svg>
+          <div class="score-ring-text" style="font-size:13px;">92%</div>
+        </div>
+        <div class="stat-lbl">Overall health</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon-row">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6 L5 9 L10 3" stroke="#3DBD8F" stroke-width="1" stroke-linecap="round"/></svg>
+        Completed Tasks
+      </div>
+      <div class="stat-val success">28</div>
+      <div class="stat-lbl">This year</div>
+    </div>
+  </div>
+
+  <!-- ASSET TABLE + MINI CAL -->
+  <div class="grid-3 fade-in">
+    <div class="card">
+      <div class="card-title">
+        <span>IP Asset Compliance Table</span>
+        <div style="display:flex;gap:6px;">
+          <button class="action-btn" onclick="openAddTask()">+ Add Asset</button>
+        </div>
+      </div>
+      <table class="cal-table">
+        <thead>
+          <tr>
+            <th>Asset Name</th>
+            <th>Type</th>
+            <th>Due Date</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="asset-name-cell"><div class="asset-dot" style="background:var(--gold)"></div>Brand X Logo</div></td>
+            <td style="color:var(--gold)">Trademark</td>
+            <td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--warning)">Jun 15, 2025</td>
+            <td><span class="badge badge-warning">High</span></td>
+            <td><span class="badge badge-warning">Pending</span></td>
+            <td><button class="action-btn" onclick="openReminder('Brand X Logo')">Remind</button></td>
+          </tr>
+          <tr>
+            <td><div class="asset-name-cell"><div class="asset-dot" style="background:var(--danger)"></div>Tech Patent A</div></td>
+            <td style="color:var(--gold)">Patent</td>
+            <td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--danger)">OVERDUE</td>
+            <td><span class="badge badge-danger">Critical</span></td>
+            <td><span class="badge badge-danger">Overdue</span></td>
+            <td><button class="action-btn danger" onclick="openReminder('Tech Patent A')">Urgent</button></td>
+          </tr>
+          <tr>
+            <td><div class="asset-name-cell"><div class="asset-dot" style="background:var(--info)"></div>Formula Y Secret</div></td>
+            <td style="color:var(--gold)">Trade Secret</td>
+            <td style="font-family:'DM Mono',monospace;font-size:10px;">Aug 1, 2025</td>
+            <td><span class="badge badge-warning">Moderate</span></td>
+            <td><span class="badge badge-info">In Progress</span></td>
+            <td><button class="action-btn" onclick="openReminder('Formula Y Secret')">Remind</button></td>
+          </tr>
+          <tr>
+            <td><div class="asset-name-cell"><div class="asset-dot" style="background:var(--success)"></div>Global License</div></td>
+            <td style="color:var(--gold)">License</td>
+            <td style="font-family:'DM Mono',monospace;font-size:10px;">Sep 5, 2025</td>
+            <td><span class="badge badge-active">Low</span></td>
+            <td><span class="badge badge-complete">Completed</span></td>
+            <td><button class="action-btn" onclick="openReminder('Global License')">View</button></td>
+          </tr>
+          <tr>
+            <td><div class="asset-name-cell"><div class="asset-dot" style="background:var(--warning)"></div>Domain Portfolio</div></td>
+            <td style="color:var(--gold)">Domain</td>
+            <td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--warning)">Jul 22, 2025</td>
+            <td><span class="badge badge-warning">High</span></td>
+            <td><span class="badge badge-warning">Pending</span></td>
+            <td><button class="action-btn" onclick="openReminder('Domain Portfolio')">Remind</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="action-bar">
+        <button class="action-btn" onclick="openReminderAll()">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="margin-right:4px;"><circle cx="5" cy="5" r="4" stroke="#8A8699" stroke-width="0.8"/><line x1="5" y1="3" x2="5" y2="5" stroke="#8A8699" stroke-width="0.8"/><circle cx="5" cy="6.5" r="0.5" fill="#8A8699"/></svg>
+          Send All Reminders
+        </button>
+        <button class="action-btn primary" onclick="openExportModal()">Generate Report</button>
+        <button class="action-btn" onclick="openAddTask()">Add Task</button>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div style="display:flex;flex-direction:column;gap:2px;background:var(--border);">
+
+      <!-- Mini Calendar -->
+      <div class="card">
+        <div class="mini-cal">
+          <div class="mini-cal-header">
+            <button class="mini-cal-nav" onclick="changeMonth(-1)">←</button>
+            <span class="mini-cal-title" id="calMonthTitle">June 2025</span>
+            <button class="mini-cal-nav" onclick="changeMonth(1)">→</button>
+          </div>
+          <div class="mini-cal-grid" id="miniCalGrid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Compliance Alerts -->
+      <div class="card">
+        <div class="card-title" style="font-size:16px;">Compliance Alerts</div>
+        <div class="alert-item">
+          <div class="alert-dot critical"></div>
+          <div>
+            <span class="alert-tag critical">⚠ Critical</span>
+            <div class="alert-text">Lapsed Patent Renewal — Tech Patent A is overdue. Immediate action required to avoid permanent loss.</div>
+          </div>
+        </div>
+        <div class="alert-item">
+          <div class="alert-dot moderate"></div>
+          <div>
+            <span class="alert-tag moderate">⚡ Moderate</span>
+            <div class="alert-text">Documentation Update Needed — Formula Y Secret NDA expires in 60 days. Schedule review now.</div>
+          </div>
+        </div>
+        <div class="alert-item">
+          <div class="alert-dot info"></div>
+          <div>
+            <span class="alert-tag info">ℹ Info</span>
+            <div class="alert-text">Upcoming EU Filing — July 10, 2025. Begin gathering required documentation this week.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audit Reminder -->
+      <div class="card">
+        <div class="card-label">Next IP Audit</div>
+        <div class="audit-box">
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">🔔 Scheduled</div>
+          <div class="audit-date">August 5, 2025</div>
+        </div>
+        <button class="action-btn primary" style="width:100%;margin-top:12px;padding:10px;" onclick="openExportModal()">Export Report</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GANTT + COST CALCULATOR -->
+  <div class="grid-2 fade-in">
+
+    <!-- Gantt -->
+    <div class="card">
+      <div class="card-title">Timeline View — 2025</div>
+      <div class="gantt-wrap">
+        <div class="gantt-grid">
+          <div class="gantt-header">
+            <div></div>
+            <div class="gantt-month">Jan</div>
+            <div class="gantt-month">Feb</div>
+            <div class="gantt-month">Mar</div>
+            <div class="gantt-month">Apr</div>
+            <div class="gantt-month">May</div>
+            <div class="gantt-month">Jun</div>
+            <div class="gantt-month">Jul</div>
+            <div class="gantt-month">Aug</div>
+            <div class="gantt-month">Sep</div>
+            <div class="gantt-month">Oct</div>
+            <div class="gantt-month">Nov</div>
+            <div class="gantt-month">Dec</div>
+          </div>
+          <!-- Trademark Renewal -->
+          <div class="gantt-row">
+            <div class="gantt-label">Trademark</div>
+            <div class="gantt-cell" style="grid-column:2/4"></div>
+            <div class="gantt-cell" style="grid-column:4/8">
+              <div class="gantt-bar trademark">Brand X Logo Renewal</div>
+            </div>
+            <div class="gantt-cell" style="grid-column:8/13"></div>
+          </div>
+          <!-- Patent -->
+          <div class="gantt-row">
+            <div class="gantt-label">Patent</div>
+            <div class="gantt-cell" style="grid-column:2/2"></div>
+            <div class="gantt-cell" style="grid-column:2/6">
+              <div class="gantt-bar patent">Tech Patent A — OVERDUE</div>
+            </div>
+            <div class="gantt-cell" style="grid-column:6/13"></div>
+          </div>
+          <!-- Trade Secret -->
+          <div class="gantt-row">
+            <div class="gantt-label">Trade Secret</div>
+            <div class="gantt-cell" style="grid-column:2/5"></div>
+            <div class="gantt-cell" style="grid-column:5/10">
+              <div class="gantt-bar secret">Formula Y Secret Audit</div>
+            </div>
+            <div class="gantt-cell" style="grid-column:10/13"></div>
+          </div>
+          <!-- License -->
+          <div class="gantt-row">
+            <div class="gantt-label">License</div>
+            <div class="gantt-cell" style="grid-column:2/7"></div>
+            <div class="gantt-cell" style="grid-column:7/11">
+              <div class="gantt-bar license">Global License Review</div>
+            </div>
+            <div class="gantt-cell" style="grid-column:11/13"></div>
+          </div>
+          <!-- Domain -->
+          <div class="gantt-row">
+            <div class="gantt-label">Domain</div>
+            <div class="gantt-cell" style="grid-column:2/4"></div>
+            <div class="gantt-cell" style="grid-column:4/9">
+              <div class="gantt-bar domain">Domain Portfolio Renewal</div>
+            </div>
+            <div class="gantt-cell" style="grid-column:9/13"></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);"><div style="width:12px;height:8px;background:rgba(200,169,110,0.5);border-radius:1px;"></div>Trademark</div>
+        <div style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);"><div style="width:12px;height:8px;background:rgba(217,79,79,0.6);border-radius:1px;"></div>Patent</div>
+        <div style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);"><div style="width:12px;height:8px;background:rgba(74,158,219,0.5);border-radius:1px;"></div>Trade Secret</div>
+        <div style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);"><div style="width:12px;height:8px;background:rgba(61,189,143,0.5);border-radius:1px;"></div>License</div>
+        <div style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);"><div style="width:12px;height:8px;background:rgba(224,155,61,0.5);border-radius:1px;"></div>Domain</div>
+      </div>
+    </div>
+
+    <!-- COST CALCULATOR -->
+    <div class="card">
+      <div class="card-title">What Unprotected IP Costs You</div>
+      <div class="calc-wrap">
+        <div class="calc-row">
+          <div class="calc-label">Missed Trademark Renewal</div>
+          <div class="calc-value">$15,000</div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-label">Lapsed Patent (Tech Patent A)</div>
+          <div class="calc-value">$85,000</div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-label">Unprotected Trade Secret</div>
+          <div class="calc-value">$22,000</div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-label">Domain Loss & Recovery</div>
+          <div class="calc-value">$5,000</div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-label">IP Troll Defense (uninsured)</div>
+          <div class="calc-value">$500,000+</div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-label">Current compliance status saves you</div>
+          <div class="calc-value safe">$28,000</div>
+        </div>
+      </div>
+      <div class="calc-total">
+        <div class="calc-total-lbl">Total IP at Risk (unprotected assets)</div>
+        <div class="calc-total-val" id="riskTotal">$127,000</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div class="insight-row">
+          <div class="insight-dot"><svg width="8" height="8" viewBox="0 0 8 8"><path d="M1.5 4 L3 5.5 L6.5 2" stroke="#C8A96E" stroke-width="1" fill="none" stroke-linecap="round"/></svg></div>
+          IP Architech™ management prevents these losses for $800/month
+        </div>
+        <div class="insight-row">
+          <div class="insight-dot"><svg width="8" height="8" viewBox="0 0 8 8"><path d="M1.5 4 L3 5.5 L6.5 2" stroke="#C8A96E" stroke-width="1" fill="none" stroke-linecap="round"/></svg></div>
+          IP Defense Bundle covers up to $10M in litigation costs
+        </div>
+      </div>
+      <button class="action-btn primary" style="width:100%;margin-top:16px;padding:12px;" onclick="openBookModal()">Protect My IP Now →</button>
+    </div>
+  </div>
+
+  <!-- BOOK A CALL CTA -->
+  <div class="book-cta fade-in">
+    <div class="book-cta-text">
+      <div class="book-cta-title">Ready for your own <em style="font-style:italic;color:var(--gold);">custom system?</em></div>
+      <div class="book-cta-sub">This demo shows sample data. Your calendar will be built with YOUR actual IP assets, deadlines, and risks — delivered in 2-3 weeks.</div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="action-btn primary" style="padding:14px 28px;" onclick="openBookModal()">Book a Discovery Call →</button>
+      <a href="https://iparchitech.com" style="text-decoration:none;"><button class="action-btn" style="padding:14px 28px;">Take Free IP Audit →</button></a>
+    </div>
+  </div>
+
+</div>
+
+<!-- REMINDER MODAL -->
+<div class="modal-overlay" id="reminderModal" onclick="closeIfOverlay(event,'reminderModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('reminderModal')">✕</button>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px;">Send Reminder</div>
+    <div class="modal-title" id="reminderAssetName">Brand X Logo</div>
+    <div class="modal-sub">A renewal reminder will be sent to your registered contact for this IP asset. In your custom system, reminders are automated 90, 60, and 30 days before each deadline.</div>
+    <div style="background:rgba(200,169,110,0.06);border:1px solid rgba(200,169,110,0.15);padding:16px;margin-bottom:20px;">
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Reminder Schedule</div>
+      <div style="font-size:12px;color:var(--muted2);line-height:1.8;">
+        ✦ 90 days before: Planning reminder<br>
+        ✦ 60 days before: Action required<br>
+        ✦ 30 days before: Urgent deadline<br>
+        ✦ Day of: Final alert
+      </div>
+    </div>
+    <button class="action-btn primary" style="width:100%;padding:13px;" onclick="closeModal('reminderModal')">Send Reminder (Demo) →</button>
+  </div>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="modal-overlay" id="exportModal" onclick="closeIfOverlay(event,'exportModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('exportModal')">✕</button>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px;">Export Report Preview</div>
+    <div class="modal-title">IP Compliance Report</div>
+    <div class="modal-sub">Your custom report will include all IP assets, deadlines, risks, and action items — branded with your company name.</div>
+    <div class="export-preview">
+      <div class="highlight">IP ARCHITECH™ — COMPLIANCE REPORT</div>
+      <div class="highlight" id="exportClientName">Sample Business Co.</div>
+      <div>Generated: <span class="highlight">June 15, 2025</span></div>
+      <div style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px;">
+        ASSETS TRACKED: <span class="highlight">5</span><br>
+        CRITICAL: <span style="color:var(--danger);">4</span> | PENDING: <span style="color:var(--warning);">2</span> | COMPLETE: <span style="color:var(--success);">1</span><br>
+        COMPLIANCE SCORE: <span class="highlight">92%</span><br>
+        TOTAL IP AT RISK: <span style="color:var(--danger);">$127,000</span><br>
+        <div style="margin-top:8px;">NEXT AUDIT: August 5, 2025</div>
+      </div>
+    </div>
+    <button class="action-btn primary" style="width:100%;padding:13px;" onclick="closeModal('exportModal');openBookModal();">Get My Real Report →</button>
+    <p style="font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);text-align:center;margin-top:10px;">Real reports generated after discovery call · Not legal advice</p>
+  </div>
+</div>
+
+<!-- ADD TASK MODAL -->
+<div class="modal-overlay" id="addTaskModal" onclick="closeIfOverlay(event,'addTaskModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addTaskModal')">✕</button>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px;">Add IP Asset</div>
+    <div class="modal-title">Track a New Asset</div>
+    <div class="modal-sub">In your custom system, you can add unlimited IP assets. Your VA or IP Architech™ team manages all updates.</div>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Asset Name</div>
+        <input type="text" placeholder="e.g. MyBrand Trademark" style="width:100%;background:var(--bg2);border:1px solid var(--border2);color:var(--text);font-family:'Jost',sans-serif;font-size:14px;padding:10px 12px;outline:none;">
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Asset Type</div>
+        <select style="width:100%;background:var(--bg2);border:1px solid var(--border2);color:var(--text);font-family:'Jost',sans-serif;font-size:14px;padding:10px 12px;outline:none;">
+          <option>Trademark</option>
+          <option>Patent</option>
+          <option>Copyright</option>
+          <option>Trade Secret</option>
+          <option>Domain</option>
+          <option>License</option>
+        </select>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Renewal Date</div>
+        <input type="date" style="width:100%;background:var(--bg2);border:1px solid var(--border2);color:var(--text);font-family:'Jost',sans-serif;font-size:14px;padding:10px 12px;outline:none;">
+      </div>
+    </div>
+    <button class="action-btn primary" style="width:100%;padding:13px;" onclick="closeModal('addTaskModal')">Add Asset (Demo) →</button>
+  </div>
+</div>
+
+<!-- BOOK MODAL -->
+<div class="modal-overlay" id="bookModal" onclick="closeIfOverlay(event,'bookModal')">
+  <div class="modal" style="text-align:center;">
+    <button class="modal-close" onclick="closeModal('bookModal')">✕</button>
+    <svg width="36" height="40" viewBox="0 0 80 88" fill="none" style="margin:0 auto 16px;">
+      <path d="M6 10 L40 2 L74 10 L74 58 Q74 80 40 86 Q6 80 6 58 Z" fill="#07070C" stroke="#C8A96E" stroke-width="2"/>
+      <path d="M40 22 L26 64 M40 22 L54 64 M30 50 L50 50" stroke="#C8A96E" stroke-width="3" stroke-linecap="round"/>
+      <rect x="36" y="15" width="8" height="8" fill="#C8A96E" transform="rotate(45 40 19)"/>
+    </svg>
+    <div class="modal-title" style="text-align:center;">Get Your Custom System</div>
+    <div class="modal-sub" style="text-align:center;">Book a free 30-minute discovery call. We'll assess your IP, identify your gaps, and show you exactly what your custom dashboard and compliance calendar will look like.</div>
+    <div style="background:rgba(200,169,110,0.06);border:1px solid rgba(200,169,110,0.15);padding:16px;margin-bottom:20px;text-align:left;">
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px;">What's Included:</div>
+      <div class="insight-row"><div class="insight-dot"><svg width="8" height="8" viewBox="0 0 8 8"><path d="M1.5 4 L3 5.5 L6.5 2" stroke="#C8A96E" stroke-width="1" fill="none" stroke-linecap="round"/></svg></div>IP Intelligence Dashboard — custom to your assets</div>
+      <div class="insight-row"><div class="insight-dot"><svg width="8" height="8" viewBox="0 0 8 8"><path d="M1.5 4 L3 5.5 L6.5 2" stroke="#C8A96E" stroke-width="1" fill="none" stroke-linecap="round"/></svg></div>IP Compliance Calendar with automated alerts</div>
+      <div class="insight-row"><div class="insight-dot"><svg width="8" height="8" viewBox="0 0 8 8"><path d="M1.5 4 L3 5.5 L6.5 2" stroke="#C8A96E" stroke-width="1" fill="none" stroke-linecap="round"/></svg></div>Risk Assessment + Lender-Ready Package</div>
+      <div class="insight-row"><div class="insight-dot"><svg width="8" height="8" viewBox="0 0 8 8"><path d="M1.5 4 L3 5.5 L6.5 2" stroke="#C8A96E" stroke-width="1" fill="none" stroke-linecap="round"/></svg></div>Monthly management ($800/month)</div>
+    </div>
+    <a href="https://iparchitech.com" target="_blank" style="text-decoration:none;display:block;margin-bottom:10px;">
+      <button class="action-btn primary" style="width:100%;padding:14px;font-size:11px;">Book Discovery Call → iparchitech.com</button>
+    </a>
+    <p style="font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);">Not legal or financial advice · Digital systems only</p>
+  </div>
+</div>
+
+<script>
+// ── CLIENT NAME PERSONALIZATION ──────────────────────
+function updateClientName(val) {
+  const name = val || 'Your Business';
+  document.getElementById('exportClientName').textContent = name;
+}
+
+// ── MINI CALENDAR ─────────────────────────────────────
+let calYear = 2025, calMonth = 5; // June 2025
+const eventDays = {5:[15],6:[8],7:[1],8:[5]};
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function renderMiniCal() {
+  document.getElementById('calMonthTitle').textContent = `${months[calMonth]} ${calYear}`;
+  const grid = document.getElementById('miniCalGrid');
+  const dayLabels = ['S','M','T','W','T','F','S'];
+  let html = dayLabels.map(d => `<div class="mini-cal-day-lbl">${d}</div>`).join('');
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const today = new Date();
+  for (let i = 0; i < firstDay; i++) html += `<div class="mini-cal-day empty"></div>`;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear();
+    const hasEvent = eventDays[calMonth] && eventDays[calMonth].includes(d);
+    const hasGoldEvent = calMonth === 5 && d === 15;
+    html += `<div class="mini-cal-day${isToday?' today':''}${hasEvent?' has-event':''}${hasGoldEvent?' has-event-gold':''}">${d}</div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function changeMonth(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  renderMiniCal();
+}
+
+renderMiniCal();
+
+// ── MODALS ────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function closeIfOverlay(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
+
+function openReminder(asset) {
+  document.getElementById('reminderAssetName').textContent = asset;
+  openModal('reminderModal');
+}
+function openReminderAll() {
+  document.getElementById('reminderAssetName').textContent = 'All Pending Assets';
+  openModal('reminderModal');
+}
+function openExportModal() { openModal('exportModal'); }
+function openAddTask() { openModal('addTaskModal'); }
+function openBookModal() { openModal('bookModal'); }
+</script>
+</body>
+</html>
