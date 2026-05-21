@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IP Architech™ — Digital IP Systems for Small Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07070C;
+  --bg2: #0D0D15;
+  --card: #0F0F18;
+  --card2: #13131E;
+  --border: #1A1A2A;
+  --border2: #242438;
+  --gold: #C8A96E;
+  --gold-dim: #7A6340;
+  --gold-light: #E2C98A;
+  --gold-pale: rgba(200,169,110,0.08);
+  --text: #EDE9E0;
+  --muted: #52506A;
+  --muted2: #8A8699;
+  --danger: #D94F4F;
+  --success: #3DBD8F;
+  --white: #F5F2EC;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+
+/* CURSOR */
+.cursor{position:fixed;width:7px;height:7px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s;}
+.cursor-ring{position:fixed;width:30px;height:30px;border:1px solid rgba(200,169,110,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);}
+body:hover .cursor{opacity:1;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:28px 60px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s ease;}
+nav.scrolled{background:rgba(7,7,12,0.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:18px 60px;}
+.nav-logo{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;text-decoration:none;cursor:none;}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted2);text-decoration:none;transition:color 0.2s;cursor:none;}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);}
+.nav-right{display:flex;align-items:center;gap:20px;}
+.nav-cta{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--bg);background:var(--gold);border:none;padding:10px 22px;cursor:none;transition:all 0.2s;}
+.nav-cta:hover{background:var(--gold-light);}
+
+/* BURGER */
+.burger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px;}
+.burger span{display:block;width:24px;height:1px;background:var(--gold);transition:all 0.3s ease;}
+.burger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.burger.open span:nth-child(2){opacity:0;}
+.burger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+
+/* MOBILE MENU */
+.mobile-menu{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:150;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.77,0,0.175,1);}
+.mobile-menu.open{transform:translateX(0);}
+.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,8vw,52px);font-weight:300;color:var(--text);text-decoration:none;letter-spacing:0.05em;transition:color 0.2s;padding:8px 0;cursor:none;}
+.mobile-menu a:hover{color:var(--gold);}
+.mobile-menu .m-cta{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:14px 40px;margin-top:20px;border:none;cursor:none;}
+
+/* PAGES */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* ── HOME PAGE ── */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:0 60px;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 72% 48%,rgba(200,169,110,0.07) 0%,transparent 65%),radial-gradient(ellipse 40% 50% at 15% 85%,rgba(200,169,110,0.04) 0%,transparent 60%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(200,169,110,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(200,169,110,0.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 85% 85% at 50% 50%,black 20%,transparent 100%);}
+.hero-content{position:relative;z-index:2;max-width:680px;}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:32px;display:flex;align-items:center;gap:14px;animation:fadeUp 0.9s ease both;}
+.hero-eyebrow::before{content:'';display:inline-block;width:28px;height:1px;background:var(--gold-dim);}
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,8.5vw,100px);font-weight:300;line-height:0.93;color:var(--white);margin-bottom:32px;animation:fadeUp 0.9s 0.12s ease both;}
+.hero-h1 em{font-style:italic;color:var(--gold);}
+.hero-sub{font-size:15px;line-height:1.85;color:var(--muted2);max-width:460px;margin-bottom:48px;animation:fadeUp 0.9s 0.24s ease both;}
+.hero-actions{display:flex;align-items:center;gap:28px;animation:fadeUp 0.9s 0.36s ease both;}
+.btn-primary{background:var(--gold);color:var(--bg);border:none;padding:16px 42px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;cursor:none;text-decoration:none;display:inline-block;transition:all 0.25s ease;}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 14px 44px rgba(200,169,110,0.22);}
+.btn-ghost{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted2);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;cursor:none;}
+.btn-ghost:hover{color:var(--gold);}
+.btn-ghost::after{content:'↓';}
+.hero-stats{position:absolute;right:60px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:2px;animation:fadeIn 1.2s 0.5s ease both;}
+.stat-card{background:var(--card);border:1px solid var(--border);padding:22px 30px;min-width:200px;}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:4px;}
+.stat-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);}
+
+/* MARQUEE */
+.marquee-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;padding:13px 0;background:var(--bg2);}
+.marquee-track{display:flex;animation:marquee 35s linear infinite;white-space:nowrap;}
+.marquee-item{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);padding:0 44px;display:flex;align-items:center;gap:44px;}
+.marquee-item span{color:var(--gold-dim);}
+
+/* SECTIONS */
+section{padding:120px 60px;}
+.section-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+.section-label::before{content:'';display:inline-block;width:18px;height:1px;background:var(--gold-dim);}
+.section-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,58px);font-weight:300;line-height:1.08;color:var(--white);margin-bottom:18px;}
+.section-h2 em{font-style:italic;color:var(--gold);}
+.section-sub{font-size:14px;line-height:1.85;color:var(--muted2);max-width:500px;}
+
+/* PROBLEM */
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;}
+.problem-list{list-style:none;margin-top:36px;display:flex;flex-direction:column;gap:0;}
+.problem-list li{display:flex;align-items:flex-start;gap:14px;font-size:13px;line-height:1.75;color:var(--muted2);padding:16px 0;border-bottom:1px solid var(--border);}
+.problem-list li:first-child{border-top:1px solid var(--border);}
+.p-x{font-family:'DM Mono',monospace;font-size:9px;color:var(--danger);margin-top:3px;flex-shrink:0;}
+.big-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,40px);font-weight:300;font-style:italic;line-height:1.4;color:var(--white);border-left:2px solid var(--gold);padding-left:32px;}
+.big-quote cite{display:block;font-style:normal;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--muted);margin-top:22px;text-transform:uppercase;}
+
+/* SERVICES GRID */
+.alt-bg{background:var(--bg2);}
+.services-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;gap:40px;}
+.services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);}
+.svc-card{background:var(--card);padding:36px 28px;transition:all 0.3s ease;position:relative;overflow:hidden;}
+.svc-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.35s ease;}
+.svc-card:hover::after{transform:scaleX(1);}
+.svc-card:hover{background:var(--card2);}
+.svc-num{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;color:var(--gold-dim);margin-bottom:18px;}
+.svc-icon{font-size:20px;margin-bottom:14px;display:block;}
+.svc-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--white);margin-bottom:10px;line-height:1.2;}
+.svc-desc{font-size:12px;line-height:1.75;color:var(--muted);}
+
+/* STEPS */
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:56px;}
+.step{background:var(--card);padding:44px 36px;}
+.step-num{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;color:rgba(200,169,110,0.1);line-height:1;margin-bottom:8px;}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--white);margin-bottom:10px;}
+.step-desc{font-size:13px;line-height:1.8;color:var(--muted2);}
+
+/* QUIZ EMBED */
+.quiz-wrap{max-width:660px;margin:0 auto;}
+.quiz-intro{text-align:center;margin-bottom:52px;}
+.quiz-shell{background:var(--card);border:1px solid var(--border2);padding:48px;}
+.q-prog-meta{display:flex;justify-content:space-between;margin-bottom:8px;}
+.q-prog-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-dim);}
+.q-prog-count{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);}
+.q-prog-track{height:1px;background:var(--border2);margin-bottom:36px;}
+.q-prog-fill{height:100%;background:var(--gold);transition:width 0.5s ease;}
+.q-icon{font-size:22px;margin-bottom:10px;display:block;}
+.q-cat{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+.q-text{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,3vw,28px);font-weight:400;color:var(--white);line-height:1.35;margin-bottom:28px;}
+.q-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:28px;}
+.q-opt{display:flex;align-items:flex-start;gap:14px;padding:15px 18px;background:transparent;border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;font-weight:300;line-height:1.5;text-align:left;cursor:none;transition:all 0.2s;width:100%;}
+.q-opt:hover{border-color:var(--gold-dim);background:var(--gold-pale);transform:translateX(4px);}
+.q-opt.sel{border-color:var(--gold);background:var(--gold-pale);color:var(--gold-light);}
+.q-letter{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--gold-dim);margin-top:3px;flex-shrink:0;}
+.q-next{width:100%;background:var(--gold);color:var(--bg);border:none;padding:16px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;cursor:none;transition:all 0.2s;}
+.q-next:hover:not(:disabled){background:var(--gold-light);transform:translateY(-1px);}
+.q-next:disabled{opacity:0.2;cursor:not-allowed;}
+.r-tier{display:inline-block;border:1px solid var(--gold);padding:4px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;}
+.r-h{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,4vw,34px);font-weight:400;color:var(--white);line-height:1.2;margin-bottom:10px;}
+.r-p{font-size:13px;line-height:1.8;color:var(--muted2);margin-bottom:24px;}
+.r-div{height:1px;background:var(--border);margin:24px 0;}
+.r-score-row{display:flex;justify-content:space-between;margin-bottom:8px;}
+.r-score-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);}
+.r-score-track{height:3px;background:var(--border2);margin-bottom:20px;border-radius:2px;}
+.r-score-fill{height:100%;border-radius:2px;transition:width 1.2s ease;}
+.gaps-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.gap-tag{display:inline-block;border:1px solid rgba(217,79,79,0.3);background:rgba(217,79,79,0.07);padding:3px 10px;font-family:'DM Mono',monospace;font-size:9px;color:#D94F4F;margin:3px;}
+.rec-box{background:rgba(200,169,110,0.05);border:1px solid rgba(200,169,110,0.2);padding:20px 24px;margin:18px 0;}
+.rec-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px;}
+.rec-val{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--gold);line-height:1.4;}
+.cta-box{border:1px solid var(--border2);padding:28px 24px;text-align:center;}
+.cta-box-p{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--white);margin-bottom:20px;line-height:1.5;}
+.retake{background:transparent;border:none;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--muted);cursor:none;text-decoration:underline;margin-top:10px;}
+.quiz-anim{animation:qSlide 0.3s ease;}
+
+/* TESTIMONIALS */
+.t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:56px;}
+.t-card{background:var(--card);padding:36px 32px;}
+.t-stars{color:var(--gold);font-size:11px;letter-spacing:2px;margin-bottom:14px;}
+.t-quote{font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;font-weight:300;color:var(--text);line-height:1.7;margin-bottom:22px;}
+.t-author{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-dim);}
+
+/* CTA BAND */
+.cta-band{text-align:center;position:relative;overflow:hidden;}
+.cta-band-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(200,169,110,0.07) 0%,transparent 70%);}
+.cta-band-inner{position:relative;z-index:2;}
+.cta-h{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,6vw,70px);font-weight:300;color:var(--white);line-height:1.08;margin-bottom:18px;}
+.cta-h em{font-style:italic;color:var(--gold);}
+.cta-sub{font-size:14px;color:var(--muted2);max-width:420px;margin:0 auto 40px;line-height:1.85;}
+.disclaimer{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;color:var(--muted);margin-top:18px;}
+
+/* ── ABOUT PAGE ── */
+.about-hero{padding:160px 60px 80px;position:relative;overflow:hidden;}
+.about-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 30% 60%,rgba(200,169,110,0.06) 0%,transparent 65%);}
+.about-hero-inner{position:relative;z-index:2;max-width:760px;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.philosophy-list{list-style:none;margin-top:0;display:flex;flex-direction:column;gap:0;}
+.philosophy-list li{display:flex;align-items:flex-start;gap:14px;font-size:14px;line-height:1.75;color:var(--muted2);padding:16px 0;border-bottom:1px solid var(--border);}
+.philosophy-list li:first-child{border-top:1px solid var(--border);}
+.p-check{color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;margin-top:3px;flex-shrink:0;}
+.diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:56px;}
+.diff-card{background:var(--card);padding:32px 28px;}
+.diff-icon{font-size:22px;margin-bottom:14px;display:block;}
+.diff-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--white);margin-bottom:8px;}
+.diff-desc{font-size:12px;line-height:1.75;color:var(--muted);}
+
+/* ── SERVICES PAGE ── */
+.services-page-hero{padding:160px 60px 80px;position:relative;}
+.services-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
+.svc-detail-card{background:var(--card);padding:44px 40px;transition:background 0.3s;}
+.svc-detail-card:hover{background:var(--card2);}
+.svc-detail-num{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.2em;color:var(--gold-dim);margin-bottom:20px;}
+.svc-detail-icon{font-size:28px;margin-bottom:18px;display:block;}
+.svc-detail-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--white);margin-bottom:12px;line-height:1.15;}
+.svc-detail-desc{font-size:13px;line-height:1.85;color:var(--muted2);margin-bottom:20px;}
+.svc-detail-tag{display:inline-block;border:1px solid var(--border2);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:4px 10px;}
+
+/* ── PRICING PAGE ── */
+.pricing-hero{padding:160px 60px 80px;}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);}
+.price-card{background:var(--card);padding:44px 36px;position:relative;transition:background 0.3s;}
+.price-card:hover{background:var(--card2);}
+.price-card.featured{background:var(--card2);border-top:2px solid var(--gold);}
+.price-badge{position:absolute;top:20px;right:20px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:4px 10px;}
+.price-tier{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px;}
+.price-name{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--white);margin-bottom:6px;}
+.price-tagline{font-size:12px;color:var(--muted2);margin-bottom:28px;line-height:1.6;}
+.price-divider{height:1px;background:var(--border);margin-bottom:24px;}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
+.price-features li{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted2);line-height:1.5;}
+.price-features li::before{content:'✦';color:var(--gold-dim);font-size:8px;margin-top:4px;flex-shrink:0;}
+.price-amount{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:4px;}
+.price-amount span{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);vertical-align:middle;}
+.price-btn{display:block;width:100%;background:transparent;border:1px solid var(--border2);color:var(--muted2);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;padding:13px;cursor:none;transition:all 0.2s;text-align:center;text-decoration:none;}
+.price-btn:hover{border-color:var(--gold);color:var(--gold);}
+.price-card.featured .price-btn{background:var(--gold);color:var(--bg);border-color:var(--gold);}
+.price-card.featured .price-btn:hover{background:var(--gold-light);}
+
+/* ── CASE STUDIES PAGE ── */
+.cases-hero{padding:160px 60px 80px;}
+.case-grid{display:flex;flex-direction:column;gap:1px;background:var(--border);}
+.case-card{background:var(--card);padding:52px 56px;display:grid;grid-template-columns:1fr 2fr;gap:60px;align-items:center;transition:background 0.3s;}
+.case-card:hover{background:var(--card2);}
+.case-num{font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:300;color:rgba(200,169,110,0.1);line-height:1;}
+.case-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px;}
+.case-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--white);margin-bottom:20px;line-height:1.2;}
+.case-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.case-col-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:8px;}
+.before .case-col-lbl{color:var(--danger);}
+.after .case-col-lbl{color:var(--success);}
+.case-col-text{font-size:13px;line-height:1.75;color:var(--muted2);}
+
+/* ── RESOURCES PAGE ── */
+.resources-hero{padding:160px 60px 80px;}
+.resources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);}
+.resource-card{background:var(--card);padding:36px 32px;transition:background 0.3s;cursor:none;}
+.resource-card:hover{background:var(--card2);}
+.resource-icon{font-size:24px;margin-bottom:16px;display:block;}
+.resource-cat{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px;}
+.resource-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--white);margin-bottom:8px;line-height:1.25;}
+.resource-desc{font-size:12px;line-height:1.75;color:var(--muted);}
+.resource-dl{display:inline-block;margin-top:14px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-dim);border-bottom:1px solid var(--gold-dim);padding-bottom:2px;transition:color 0.2s;}
+.resource-card:hover .resource-dl{color:var(--gold);}
+
+/* ── CONTACT PAGE ── */
+.contact-hero{padding:160px 60px 80px;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.contact-info{display:flex;flex-direction:column;gap:32px;}
+.contact-item-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:6px;}
+.contact-item-val{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--white);}
+.contact-form{display:flex;flex-direction:column;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);}
+.form-input,.form-textarea{background:var(--card);border:1px solid var(--border2);color:var(--text);font-family:'Jost',sans-serif;font-size:14px;font-weight:300;padding:14px 16px;outline:none;transition:border-color 0.2s;width:100%;}
+.form-input:focus,.form-textarea:focus{border-color:var(--gold-dim);}
+.form-textarea{resize:vertical;min-height:120px;}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--muted);}
+
+/* ── INTAKE PAGE ── */
+.intake-hero{padding:160px 60px 80px;}
+.intake-form{max-width:680px;display:flex;flex-direction:column;gap:40px;}
+.intake-section-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--white);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.intake-fields{display:flex;flex-direction:column;gap:14px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-select{background:var(--card);border:1px solid var(--border2);color:var(--text);font-family:'Jost',sans-serif;font-size:14px;font-weight:300;padding:14px 16px;outline:none;transition:border-color 0.2s;width:100%;appearance:none;cursor:none;}
+.form-select:focus{border-color:var(--gold-dim);}
+
+/* ── IP SHIELD PAGE ── */
+.shield-hero{padding:160px 60px 80px;position:relative;overflow:hidden;}
+.shield-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 60% 50%,rgba(217,79,79,0.06) 0%,transparent 65%),radial-gradient(ellipse 40% 40% at 10% 80%,rgba(200,169,110,0.04) 0%,transparent 60%);}
+.shield-hero-inner{position:relative;z-index:2;max-width:780px;}
+.cost-band{background:rgba(217,79,79,0.07);border:1px solid rgba(217,79,79,0.2);padding:32px 40px;margin:60px 0;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;}
+.cost-stat{text-align:center;}
+.cost-num{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,56px);font-weight:300;color:#E05C5C;line-height:1;}
+.cost-lbl{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted2);margin-top:6px;}
+.cost-divider{width:1px;height:60px;background:rgba(217,79,79,0.2);}
+.shield-intro-text{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.5vw,24px);font-weight:300;font-style:italic;color:var(--text);line-height:1.6;max-width:680px;margin:0 auto 60px;text-align:center;}
+.coverage-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);}
+.coverage-card{background:var(--card);padding:36px 30px;transition:background 0.3s;}
+.coverage-card:hover{background:var(--card2);}
+.coverage-icon{font-size:24px;margin-bottom:16px;display:block;}
+.coverage-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--white);margin-bottom:10px;}
+.coverage-desc{font-size:12px;line-height:1.75;color:var(--muted);}
+.coverage-amount{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--gold);margin-top:14px;}
+.advisor-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:0;}
+.advisor-steps{display:flex;flex-direction:column;gap:0;}
+.advisor-step{display:flex;align-items:flex-start;gap:20px;padding:20px 0;border-bottom:1px solid var(--border);}
+.advisor-step:first-child{border-top:1px solid var(--border);}
+.advisor-step-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:rgba(200,169,110,0.25);line-height:1;flex-shrink:0;width:40px;}
+.advisor-step-content{}
+.advisor-step-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--white);margin-bottom:6px;}
+.advisor-step-desc{font-size:12px;line-height:1.75;color:var(--muted2);}
+.shield-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,32px);font-weight:300;font-style:italic;color:var(--white);line-height:1.45;border-left:2px solid var(--gold);padding-left:28px;}
+.shield-quote cite{display:block;font-style:normal;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;color:var(--muted);margin-top:18px;text-transform:uppercase;}
+.tiers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:56px;}
+.tier-card{background:var(--card);padding:36px 28px;text-align:center;}
+.tier-range{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:6px;}
+.tier-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;}
+.tier-desc{font-size:12px;line-height:1.75;color:var(--muted2);}
+@media(max-width:960px){
+  .shield-hero{padding-left:24px;padding-right:24px;}
+  .cost-band{flex-direction:column;align-items:flex-start;gap:24px;padding:24px;}
+  .cost-divider{display:none;}
+  .coverage-grid,.tiers-grid{grid-template-columns:1fr;}
+  .advisor-grid{grid-template-columns:1fr;gap:40px;}
+}
+
+.svc-icon svg{display:block;margin-bottom:14px;}
+.svc-icon{display:block;margin-bottom:0;}
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:40px 60px;display:flex;justify-content:space-between;align-items:center;gap:20px;}
+.footer-logo{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.22em;color:var(--gold);}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap;}
+.footer-links a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;cursor:none;}
+.footer-links a:hover{color:var(--gold);}
+.footer-copy{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--muted);}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:all 0.7s cubic-bezier(0.25,0.46,0.45,0.94);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-d1{transition-delay:0.1s;}
+.reveal-d2{transition-delay:0.2s;}
+.reveal-d3{transition-delay:0.3s;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@keyframes qSlide{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:20px 24px;}
+  nav.scrolled{padding:14px 24px;}
+  .nav-links,.nav-cta{display:none;}
+  .burger{display:flex;}
+  .hero,.about-hero,.services-page-hero,.pricing-hero,.cases-hero,.resources-hero,.contact-hero,.intake-hero{padding-left:24px;padding-right:24px;}
+  .hero{padding-top:100px;min-height:auto;}
+  .hero-stats{display:none;}
+  section{padding:80px 24px;}
+  .problem-grid,.about-grid,.contact-grid{grid-template-columns:1fr;gap:48px;}
+  .services-grid,.services-detail-grid,.diff-grid{grid-template-columns:repeat(2,1fr);}
+  .steps-grid,.t-grid,.resources-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .case-card{grid-template-columns:1fr;gap:20px;padding:36px 28px;}
+  .case-num{font-size:48px;}
+  .case-cols{grid-template-columns:1fr;}
+  .services-header{flex-direction:column;align-items:flex-start;gap:16px;}
+  footer{flex-direction:column;text-align:center;}
+  body{cursor:auto;}
+  .cursor,.cursor-ring{display:none;}
+  .form-row{grid-template-columns:1fr;}
+  .quiz-shell{padding:24px 20px;}
+}
+@media(max-width:600px){
+  .services-grid,.services-detail-grid,.diff-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo" onclick="showPage('home');return false;" style="display:flex;align-items:center;gap:10px;">
+    <svg width="28" height="30" viewBox="0 0 80 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 10 L40 2 L74 10 L74 58 Q74 80 40 86 Q6 80 6 58 Z" fill="#07070C" stroke="#C8A96E" stroke-width="2"/>
+      <path d="M40 22 L26 64 M40 22 L54 64 M30 50 L50 50" stroke="#C8A96E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="36" y="15" width="8" height="8" fill="#C8A96E" transform="rotate(45 40 19)"/>
+    </svg>
+    <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.22em;color:#C8A96E;text-transform:uppercase;">IP Architech™</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home');return false;" id="nl-home">Home</a></li>
+    <li><a href="#" onclick="showPage('about');return false;" id="nl-about">About</a></li>
+    <li><a href="#" onclick="showPage('education');return false;" id="nl-education">Higher Ed</a></li>
+    <li><a href="#" onclick="showPage('services');return false;" id="nl-services">Services</a></li>
+    <li><a href="#" onclick="showPage('pricing');return false;" id="nl-pricing">Pricing</a></li>
+    <li><a href="#" onclick="showPage('cases');return false;" id="nl-cases">Case Studies</a></li>
+    <li><a href="#" onclick="showPage('resources');return false;" id="nl-resources">Resources</a></li>
+    <li><a href="#" onclick="showPage('shield');return false;" id="nl-shield">IP Shield</a></li>
+    <li><a href="#" onclick="showPage('contact');return false;" id="nl-contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-cta" onclick="showPage('home');setTimeout(()=>document.getElementById('audit').scrollIntoView({behavior:'smooth'}),100);">Free IP Audit</button>
+    <button class="burger" id="burger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#" onclick="showPage('home');toggleMenu();return false;">Home</a>
+  <a href="#" onclick="showPage('about');toggleMenu();return false;">About</a>
+  <a href="#" onclick="showPage('services');toggleMenu();return false;">Services</a>
+  <a href="#" onclick="showPage('pricing');toggleMenu();return false;">Pricing</a>
+  <a href="#" onclick="showPage('cases');toggleMenu();return false;">Case Studies</a>
+  <a href="#" onclick="showPage('resources');toggleMenu();return false;">Resources</a>
+  <a href="#" onclick="showPage('shield');toggleMenu();return false;">IP Shield</a>
+  <a href="#" onclick="showPage('contact');toggleMenu();return false;">Contact</a>
+  <button class="m-cta" onclick="showPage('home');toggleMenu();setTimeout(()=>document.getElementById('audit').scrollIntoView({behavior:'smooth'}),100);">Free IP Audit</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HOME PAGE
+══════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Digital IP Systems for Small Business</div>
+      <h1 class="hero-h1">Your IP is an<br><em>asset.</em><br>Treat it like one.</h1>
+      <p class="hero-sub">Most small business owners don't know what intellectual property they own — and they're leaving money, protection, and opportunity on the table because of it.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('audit').scrollIntoView({behavior:'smooth'})">Free IP Audit</button>
+        <button class="btn-ghost" onclick="document.getElementById('systems').scrollIntoView({behavior:'smooth'})">See Our Systems</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">8</div><div class="stat-label">Digital IP Systems</div></div>
+      <div class="stat-card"><div class="stat-num">3<span style="font-size:20px">min</span></div><div class="stat-label">To Audit Your IP</div></div>
+      <div class="stat-card"><div class="stat-num">100%</div><div class="stat-label">Digital Systems Only</div></div>
+    </div>
+  </section>
+
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-item">IP Intelligence Dashboards <span>✦</span> Compliance Calendars <span>✦</span> Renewal Countdown Systems <span>✦</span> Licensing Trackers <span>✦</span> Documentation Workflows <span>✦</span> Lender-Ready IP Packaging <span>✦</span> Digital Asset Organization <span>✦</span> No-Code Automation <span>✦</span></div>
+      <div class="marquee-item">IP Intelligence Dashboards <span>✦</span> Compliance Calendars <span>✦</span> Renewal Countdown Systems <span>✦</span> Licensing Trackers <span>✦</span> Documentation Workflows <span>✦</span> Lender-Ready IP Packaging <span>✦</span> Digital Asset Organization <span>✦</span> No-Code Automation <span>✦</span></div>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <section>
+    <div class="problem-grid reveal">
+      <div>
+        <div class="section-label">The Problem</div>
+        <h2 class="section-h2">Small businesses own more IP than they <em>realize</em></h2>
+        <ul class="problem-list">
+          <li><span class="p-x">✕</span><span>Missed trademark renewals that cost thousands to recover — or can't be recovered at all</span></li>
+          <li><span class="p-x">✕</span><span>Unprotected creative work being used by competitors without consequence</span></li>
+          <li><span class="p-x">✕</span><span>Lenders and investors walking away because IP documentation is disorganized</span></li>
+          <li><span class="p-x">✕</span><span>Proprietary processes living entirely in the founder's head — one departure away from disappearing</span></li>
+          <li><span class="p-x">✕</span><span>No system for licensing, renewals, or digital asset tracking — just scattered files and missed emails</span></li>
+        </ul>
+      </div>
+      <div>
+        <blockquote class="big-quote">"Your intellectual property may be your most valuable business asset — and the one you've thought about the least."<cite>— IP Architech™ Founding Principle</cite></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="alt-bg" id="systems">
+    <div class="services-header reveal">
+      <div>
+        <div class="section-label">Our Systems</div>
+        <h2 class="section-h2">Eight tools. One <em>complete</em><br>IP infrastructure.</h2>
+      </div>
+      <p class="section-sub" style="max-width:280px;font-size:13px;">Not legal services. Not financial advice. Pure digital systems built to organize, protect, and leverage your IP.</p>
+    </div>
+    <div class="services-grid reveal">
+      <div class="svc-card"><div class="svc-num">01</div><span class="svc-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none"><rect x="4" y="4" width="40" height="40" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="4" y="4" width="18" height="18" fill="rgba(200,169,110,0.07)" stroke="#C8A96E" stroke-width="0.7"/><rect x="26" y="4" width="18" height="8" fill="rgba(200,169,110,0.12)" stroke="#C8A96E" stroke-width="0.7"/><rect x="26" y="16" width="18" height="6" fill="none" stroke="#C8A96E" stroke-width="0.7"/><rect x="4" y="26" width="40" height="18" fill="none" stroke="#C8A96E" stroke-width="0.7"/><rect x="8" y="36" width="4" height="6" fill="#C8A96E" opacity="0.5"/><rect x="14" y="32" width="4" height="10" fill="#C8A96E" opacity="0.7"/><rect x="20" y="29" width="4" height="13" fill="#C8A96E"/><rect x="26" y="34" width="4" height="8" fill="#C8A96E" opacity="0.4"/><rect x="32" y="31" width="4" height="11" fill="#C8A96E" opacity="0.65"/><rect x="11" y="10" width="7" height="7" fill="none" stroke="#C8A96E" stroke-width="1" transform="rotate(45 14.5 13.5)"/><rect x="13" y="12" width="3" height="3" fill="#C8A96E" transform="rotate(45 14.5 13.5)"/></svg></span><div class="svc-name">IP Intelligence Dashboard</div><div class="svc-desc">A command center for every asset you own — trademarks, copyrights, domains, licenses — in one organized view.</div></div>
+
+      <div class="svc-card"><div class="svc-num">02</div><span class="svc-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none"><rect x="4" y="8" width="40" height="36" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="4" y="8" width="40" height="9" fill="rgba(200,169,110,0.12)" stroke="#C8A96E" stroke-width="1"/><line x1="15" y1="4" x2="15" y2="12" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/><line x1="33" y1="4" x2="33" y2="12" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/><line x1="4" y1="23" x2="44" y2="23" stroke="#C8A96E" stroke-width="0.4" opacity="0.4"/><line x1="4" y1="31" x2="44" y2="31" stroke="#C8A96E" stroke-width="0.4" opacity="0.4"/><line x1="4" y1="39" x2="44" y2="39" stroke="#C8A96E" stroke-width="0.4" opacity="0.4"/><line x1="17" y1="17" x2="17" y2="44" stroke="#C8A96E" stroke-width="0.4" opacity="0.4"/><line x1="30" y1="17" x2="30" y2="44" stroke="#C8A96E" stroke-width="0.4" opacity="0.4"/><rect x="18" y="25" width="11" height="8" fill="rgba(200,169,110,0.15)" stroke="#C8A96E" stroke-width="0.8"/><circle cx="9" cy="27" r="1.5" fill="#C8A96E" opacity="0.5"/><circle cx="36" cy="19" r="1.5" fill="#C8A96E"/><circle cx="36" cy="27" r="1.5" fill="#C8A96E" opacity="0.6"/></svg></span><div class="svc-name">IP Compliance Calendar</div><div class="svc-desc">Never miss a renewal deadline. Automated alerts and structured timelines for every compliance requirement.</div></div>
+
+      <div class="svc-card"><div class="svc-num">03</div><span class="svc-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="26" r="18" stroke="#C8A96E" stroke-width="1" fill="none"/><circle cx="24" cy="26" r="14" stroke="#C8A96E" stroke-width="0.5" fill="none" opacity="0.3"/><line x1="24" y1="26" x2="24" y2="14" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/><line x1="24" y1="26" x2="33" y2="22" stroke="#C8A96E" stroke-width="1" stroke-linecap="round"/><circle cx="24" cy="26" r="2" fill="#C8A96E"/><path d="M24 8 A18 18 0 0 1 42 26" stroke="#C8A96E" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.9"/><rect x="22" y="5" width="4" height="4" stroke="#C8A96E" stroke-width="1" fill="none"/><line x1="20" y1="5" x2="28" y2="5" stroke="#C8A96E" stroke-width="1"/><line x1="24" y1="10" x2="24" y2="12" stroke="#C8A96E" stroke-width="1" stroke-linecap="round"/><line x1="38" y1="26" x2="40" y2="26" stroke="#C8A96E" stroke-width="1" stroke-linecap="round"/><line x1="10" y1="26" x2="8" y2="26" stroke="#C8A96E" stroke-width="1" stroke-linecap="round"/></svg></span><div class="svc-name">Renewal Countdown System</div><div class="svc-desc">Live countdowns on every expiring asset. Know what needs attention — weeks before it becomes urgent.</div></div>
+
+      <div class="svc-card"><div class="svc-num">04</div><span class="svc-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none"><path d="M8 4 L32 4 L40 12 L40 44 L8 44 Z" stroke="#C8A96E" stroke-width="1" fill="none"/><path d="M32 4 L32 12 L40 12" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="32" y="4" width="8" height="8" fill="rgba(200,169,110,0.08)"/><line x1="14" y1="20" x2="34" y2="20" stroke="#C8A96E" stroke-width="0.8" opacity="0.5"/><line x1="14" y1="26" x2="34" y2="26" stroke="#C8A96E" stroke-width="0.8" opacity="0.5"/><line x1="14" y1="32" x2="26" y2="32" stroke="#C8A96E" stroke-width="0.8" opacity="0.5"/><circle cx="32" cy="34" r="7" fill="#07070C" stroke="#C8A96E" stroke-width="1"/><circle cx="30" cy="32" r="3" fill="none" stroke="#C8A96E" stroke-width="1"/><line x1="32" y1="34" x2="38" y2="38" stroke="#C8A96E" stroke-width="1.2" stroke-linecap="round"/><line x1="36" y1="37" x2="36" y2="39" stroke="#C8A96E" stroke-width="1" stroke-linecap="round"/></svg></span><div class="svc-name">Licensing Tracker</div><div class="svc-desc">Track every license you issue or hold. Terms, expiration dates, and revenue — organized and accessible.</div></div>
+
+      <div class="svc-card"><div class="svc-num">05</div><span class="svc-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none"><rect x="4" y="6" width="14" height="10" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.08)"/><rect x="30" y="6" width="14" height="10" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="17" y="22" width="14" height="10" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.12)"/><rect x="4" y="38" width="14" height="8" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="30" y="38" width="14" height="8" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.06)"/><line x1="18" y1="11" x2="30" y2="11" stroke="#C8A96E" stroke-width="0.8"/><line x1="11" y1="16" x2="24" y2="22" stroke="#C8A96E" stroke-width="0.8"/><line x1="37" y1="16" x2="24" y2="22" stroke="#C8A96E" stroke-width="0.8"/><line x1="17" y1="32" x2="11" y2="38" stroke="#C8A96E" stroke-width="0.8"/><line x1="31" y1="32" x2="37" y2="38" stroke="#C8A96E" stroke-width="0.8"/></svg></span><div class="svc-name">Documentation Workflows</div><div class="svc-desc">Structured templates and processes for capturing, storing, and retrieving IP documentation on demand.</div></div>
+
+      <div class="svc-card"><div class="svc-num">06</div><span class="svc-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none"><rect x="4" y="16" width="40" height="28" rx="1" stroke="#C8A96E" stroke-width="1" fill="none"/><path d="M16 16 L16 10 Q16 6 20 6 L28 6 Q32 6 32 10 L32 16" stroke="#C8A96E" stroke-width="1" fill="none"/><line x1="4" y1="27" x2="44" y2="27" stroke="#C8A96E" stroke-width="0.8" opacity="0.5"/><rect x="20" y="24" width="8" height="6" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.15)"/><polygon points="24,34 25.5,38.5 30,38.5 26.5,41 28,45.5 24,43 20,45.5 21.5,41 18,38.5 22.5,38.5" fill="none" stroke="#C8A96E" stroke-width="0.7" opacity="0.6"/><circle cx="24" cy="39" r="2" fill="#C8A96E" opacity="0.8"/></svg></span><div class="svc-name">Lender-Ready IP Packaging</div><div class="svc-desc">Package your IP portfolio to impress investors and lenders. Organized, professional, ready when opportunity knocks.</div></div>
+
+      <div class="svc-card"><div class="svc-num">07</div><span class="svc-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none"><path d="M4 18 L4 42 L44 42 L44 18 L22 18 L18 14 L4 14 Z" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.05)"/><path d="M8 14 L8 10 L24 10 L28 14" stroke="#C8A96E" stroke-width="0.7" fill="none" opacity="0.5"/><rect x="10" y="24" width="8" height="10" stroke="#C8A96E" stroke-width="0.7" fill="rgba(200,169,110,0.1)"/><rect x="20" y="24" width="8" height="10" stroke="#C8A96E" stroke-width="0.7" fill="none"/><rect x="30" y="24" width="8" height="10" stroke="#C8A96E" stroke-width="0.7" fill="rgba(200,169,110,0.06)"/><path d="M10 24 L14 24 L14 28 Z" fill="#C8A96E" opacity="0.4"/><line x1="11" y1="30" x2="17" y2="30" stroke="#C8A96E" stroke-width="0.6" opacity="0.5"/><line x1="11" y1="32" x2="15" y2="32" stroke="#C8A96E" stroke-width="0.6" opacity="0.5"/></svg></span><div class="svc-name">Digital Asset Organization</div><div class="svc-desc">Every logo, file, creative work, and digital asset — systematically organized and instantly retrievable.</div></div>
+
+      <div class="svc-card"><div class="svc-num">08</div><span class="svc-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="8" stroke="#C8A96E" stroke-width="1" fill="none"/><circle cx="24" cy="24" r="3" fill="#C8A96E" opacity="0.7"/><rect x="22" y="4" width="4" height="8" fill="none" stroke="#C8A96E" stroke-width="0.8"/><rect x="22" y="36" width="4" height="8" fill="none" stroke="#C8A96E" stroke-width="0.8"/><rect x="4" y="22" width="8" height="4" fill="none" stroke="#C8A96E" stroke-width="0.8"/><rect x="36" y="22" width="8" height="4" fill="none" stroke="#C8A96E" stroke-width="0.8"/><rect x="8" y="8" width="4" height="7" fill="none" stroke="#C8A96E" stroke-width="0.7" transform="rotate(45 10 11.5)"/><rect x="36" y="8" width="4" height="7" fill="none" stroke="#C8A96E" stroke-width="0.7" transform="rotate(-45 38 11.5)"/><rect x="8" y="33" width="4" height="7" fill="none" stroke="#C8A96E" stroke-width="0.7" transform="rotate(-45 10 36.5)"/><rect x="36" y="33" width="4" height="7" fill="none" stroke="#C8A96E" stroke-width="0.7" transform="rotate(45 38 36.5)"/><path d="M26 18 L21 25 L24 25 L22 32 L28 23 L25 23 Z" fill="#C8A96E" opacity="0.85"/></svg></span><div class="svc-name">No-Code Automation Workflows</div><div class="svc-desc">Automate repetitive IP tasks that drain your time. Built for non-technical business owners.</div></div>
+    </div>
+  </section>
+
+  <!-- LIVE DASHBOARD DEMO BUTTON -->
+  <section style="background:#0D0D15;padding:80px 60px;text-align:center;border-top:1px solid #1A1A2A;border-bottom:1px solid #1A1A2A;">
+    <p style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:#7A6340;margin-bottom:16px;">✦ Interactive Demo</p>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,52px);font-weight:300;color:#F5F2EC;line-height:1.1;margin-bottom:16px;">See your IP system <em style="font-style:italic;color:#C8A96E;">in action.</em></h2>
+    <p style="font-family:'Jost',sans-serif;font-weight:300;font-size:15px;color:#8A8699;max-width:480px;margin:0 auto 36px;line-height:1.8;">Explore a live interactive IP Intelligence Dashboard — exactly what your custom system will look like with your own assets, risks, and opportunities.</p>
+    <a href="https://devnardo4u.github.io/iparchitech/dashboard-demo.html" target="_blank" style="display:inline-block;background:#C8A96E;color:#07070C;padding:18px 52px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;font-weight:400;">View Live Dashboard Demo →</a>
+    <p style="font-family:'DM Mono',monospace;font-size:9px;color:#52506A;margin-top:16px;letter-spacing:0.12em;">Sample data shown · Your custom dashboard built with your actual IP assets</p>
+  </section>
+
+  <!-- IP SHIELD TEASER -->
+  <section style="background:var(--bg);position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(217,79,79,0.05) 0%,transparent 65%);"></div>
+    <div style="position:relative;z-index:2;">
+      <div class="reveal" style="text-align:center;margin-bottom:52px;">
+        <div class="section-label" style="justify-content:center;">IP Risk Defense</div>
+        <h2 class="section-h2" style="text-align:center;">What happens when someone<br>comes after your <em>IP?</em></h2>
+        <p class="section-sub" style="text-align:center;margin:16px auto 0;">IP litigation isn't just a legal problem — it's a financial emergency. The average IP lawsuit costs <strong style="color:var(--white);">$500K–$5M+</strong> before a verdict. Most small businesses never recover.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:48px;" class="reveal">
+        <div style="background:var(--card);padding:32px 28px;text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:#E05C5C;line-height:1;">$500K</div>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-top:8px;">Average Troll Defense Cost</div>
+        </div>
+        <div style="background:var(--card2);padding:32px 28px;text-align:center;border-top:2px solid var(--gold);">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:#E05C5C;line-height:1;">$5M+</div>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-top:8px;">Full Infringement Litigation</div>
+        </div>
+        <div style="background:var(--card);padding:32px 28px;text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:#E05C5C;line-height:1;">87%</div>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-top:8px;">Of Small Businesses Unprotected</div>
+        </div>
+      </div>
+      <div style="background:rgba(200,169,110,0.06);border:1px solid rgba(200,169,110,0.2);padding:40px 48px;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap;" class="reveal">
+        <div style="max-width:560px;">
+          <div class="section-label">IP Risk Defense Bundle</div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,36px);font-weight:300;color:var(--white);line-height:1.2;margin-bottom:12px;">$1M–$10M IP litigation coverage.<br>Integrated into your <em>IP strategy.</em></h3>
+          <p style="font-size:13px;line-height:1.85;color:var(--muted2);">As part of your IP Risk Assessment, we identify your litigation exposure and connect you with defense-grade coverage — so if an infringer or troll ever comes after you, you're not facing it alone or unprotected.</p>
+          <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;">
+            <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--gold-dim);display:flex;align-items:center;gap:6px;"><span style="color:var(--gold);">✦</span> Troll Defense</span>
+            <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--gold-dim);display:flex;align-items:center;gap:6px;"><span style="color:var(--gold);">✦</span> Infringement Defense</span>
+            <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--gold-dim);display:flex;align-items:center;gap:6px;"><span style="color:var(--gold);">✦</span> Attorney & Court Fees</span>
+            <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--gold-dim);display:flex;align-items:center;gap:6px;"><span style="color:var(--gold);">✦</span> Settlement Costs</span>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="showPage('shield')">Learn About IP Shield →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="audit">
+    <div class="quiz-wrap">
+      <div class="quiz-intro reveal">
+        <div class="section-label" style="justify-content:center">Free IP Audit</div>
+        <h2 class="section-h2" style="text-align:center">Discover what your IP is <em>worth</em></h2>
+        <p class="section-sub" style="text-align:center;margin:0 auto;">Answer 8 questions. Get a personalized IP report, gap analysis, and the exact system you need — in under 3 minutes.</p>
+      </div>
+      <div class="quiz-shell" id="quizShell"></div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="alt-bg">
+    <div class="reveal">
+      <div class="section-label">The Process</div>
+      <h2 class="section-h2">From scattered to <em>systematized</em><br>in three steps.</h2>
+    </div>
+    <div class="steps-grid reveal">
+      <div class="step"><div class="step-num">01</div><div class="step-title">Audit Your IP</div><div class="step-desc">Take our free 3-minute IP Audit. We identify what you own, what's at risk, and where the gaps are — with zero jargon.</div></div>
+      <div class="step"><div class="step-num">02</div><div class="step-title">Get Your System</div><div class="step-desc">Receive a personalized recommendation from our suite of 8 digital IP systems — built specifically for your situation.</div></div>
+      <div class="step"><div class="step-num">03</div><div class="step-title">Implement & Automate</div><div class="step-desc">Put your IP infrastructure in place. Organize, protect, and leverage your assets with clarity and confidence.</div></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section>
+    <div class="reveal">
+      <div class="section-label">Client Results</div>
+      <h2 class="section-h2">What happens when small<br>businesses get <em>organized</em></h2>
+    </div>
+    <div class="t-grid reveal">
+      <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-quote">"I had no idea I owned so much IP. The dashboard alone changed how I think about my business. I'm now lender-ready for the first time in six years."</p><div class="t-author">M. Davis · Brand Studio Owner</div></div>
+      <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-quote">"The Renewal Countdown System paid for itself the first week. I had a trademark about to lapse that I didn't even know about."</p><div class="t-author">R. Chen · Product Founder</div></div>
+      <div class="t-card"><div class="t-stars">★★★★★</div><p class="t-quote">"Finally an IP system built for real business owners — not lawyers. Setup was fast. The organization is something I should have had years ago."</p><div class="t-author">T. Williams · Creative Agency</div></div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="cta-band alt-bg">
+    <div class="cta-band-bg"></div>
+    <div class="cta-band-inner reveal">
+      <div class="section-label" style="justify-content:center">Get Started Today</div>
+      <h2 class="cta-h">Your IP is working against<br>you right now. Let's<br>change <em>that.</em></h2>
+      <p class="cta-sub">Take the free 3-minute audit and walk away with a personalized IP system recommendation.</p>
+      <button class="btn-primary" onclick="document.getElementById('audit').scrollIntoView({behavior:'smooth'})">Take the Free IP Audit →</button>
+      <p class="disclaimer">IP Architech™ · Digital systems only · Not legal or financial advice</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">IP Architech™</div>
+    <div class="footer-links">
+      <a href="#" onclick="showPage('about');return false;">About</a>
+      <a href="#" onclick="showPage('services');return false;">Services</a>
+      <a href="#" onclick="showPage('pricing');return false;">Pricing</a>
+      <a href="#" onclick="showPage('shield');return false;">IP Shield</a>
+      <a href="#" onclick="showPage('cases');return false;">Case Studies</a>
+      <a href="#" onclick="showPage('resources');return false;">Resources</a>
+      <a href="#" onclick="showPage('contact');return false;">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 IP Architech™ · Not legal or financial advice</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ABOUT PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="about-hero">
+    <div class="about-hero-bg"></div>
+    <div class="about-hero-inner">
+      <div class="section-label">Who We Are</div>
+      <h1 class="hero-h1" style="font-size:clamp(44px,7vw,84px);">Built for founders.<br>Not <em>lawyers.</em></h1>
+      <p class="section-sub" style="margin-top:20px;max-width:560px;">IP Architech™ builds digital IP systems for small businesses and institutions — giving founders, creators, and educators the clarity, structure, and protection they've never had. We're not a law firm. We're your IP infrastructure team.</p>
+    </div>
+  </div>
+
+  <!-- FOUNDER STORY -->
+  <section style="background:var(--bg);">
+    <div class="about-grid reveal">
+      <div>
+        <div class="section-label">The Founder</div>
+        <h2 class="section-h2">14 years in the<br>classroom. Now building<br><em>IP infrastructure.</em></h2>
+        <p class="section-sub" style="margin-top:16px;">With over 14 years as a professor, I've watched institutions and small businesses create enormous intellectual value — and then leave it completely unprotected, disorganized, and unmonetized.</p>
+        <p class="section-sub" style="margin-top:16px;">IP Architech™ was built to fix that. Not with lawyers. Not with expensive software. With systems, automation, and clarity — built specifically for the people who create value but rarely get the infrastructure to protect it.</p>
+        <div style="margin-top:28px;display:flex;flex-direction:column;gap:0;">
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-bottom:1px solid var(--border);">
+            <span style="color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;margin-top:3px;">✦</span>
+            <span style="font-size:14px;color:var(--muted2);">14+ years as a professor — understanding how institutions create and lose IP</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-bottom:1px solid var(--border);">
+            <span style="color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;margin-top:3px;">✦</span>
+            <span style="font-size:14px;color:var(--muted2);">Deep understanding of academic IP — research, curriculum, methodology, and proprietary systems</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-bottom:1px solid var(--border);">
+            <span style="color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;margin-top:3px;">✦</span>
+            <span style="font-size:14px;color:var(--muted2);">Built IP Architech™ to bridge the gap between legal complexity and operational reality</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 0;">
+            <span style="color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;margin-top:3px;">✦</span>
+            <span style="font-size:14px;color:var(--muted2);">Serving small businesses, creative professionals, and higher education institutions</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <blockquote class="big-quote">"As a professor for over 14 years, I watched institutions sit on billions in dormant IP while small business owners lost assets they didn't even know they owned. I built IP Architech™ so that never happens again."<cite>— Founder, IP Architech™</cite></blockquote>
+        <div style="margin-top:32px;background:var(--card);border:1px solid var(--border);padding:28px;">
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:16px;">Areas of Expertise</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--muted2);border:1px solid var(--border2);padding:6px 12px;">IP Organization Systems</span>
+            <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--muted2);border:1px solid var(--border2);padding:6px 12px;">Academic IP Strategy</span>
+            <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--muted2);border:1px solid var(--border2);padding:6px 12px;">No-Code Automation</span>
+            <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--muted2);border:1px solid var(--border2);padding:6px 12px;">Renewal Management</span>
+            <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--muted2);border:1px solid var(--border2);padding:6px 12px;">Lender-Ready Packaging</span>
+            <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--muted2);border:1px solid var(--border2);padding:6px 12px;">IP Risk Assessment</span>
+            <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--muted2);border:1px solid var(--border2);padding:6px 12px;">Higher Education IP</span>
+            <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--muted2);border:1px solid var(--border2);padding:6px 12px;">Licensing Frameworks</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt-bg">
+    <div class="about-grid reveal">
+      <div>
+        <div class="section-label">Why We Exist</div>
+        <h2 class="section-h2">Small businesses create <em>enormous value</em> but rarely protect it.</h2>
+        <p class="section-sub" style="margin-top:16px;">Founders spend years building brand equity, creative assets, proprietary processes, and digital properties — then lose them to missed deadlines, disorganization, or simply not knowing what they owned in the first place. We fix that.</p>
+      </div>
+      <div>
+        <div class="section-label">Our Philosophy</div>
+        <ul class="philosophy-list">
+          <li><span class="p-check">✦</span><span>IP should be organized, not scattered across drives and email threads</span></li>
+          <li><span class="p-check">✦</span><span>Systems should be simple, not overwhelming or reserved for corporations</span></li>
+          <li><span class="p-check">✦</span><span>Founders should feel empowered, not confused by jargon</span></li>
+          <li><span class="p-check">✦</span><span>Your IP should work for you — generating revenue, opening doors, and protecting what you've built</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="reveal">
+      <div class="section-label">What Makes Us Different</div>
+      <h2 class="section-h2">Systems, not services.<br><em>Clarity,</em> not complexity.</h2>
+    </div>
+    <div class="diff-grid reveal">
+      <div class="diff-card"><span class="diff-icon"><svg width="36" height="36" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="8" stroke="#C8A96E" stroke-width="1" fill="none"/><circle cx="24" cy="24" r="3" fill="#C8A96E" opacity="0.7"/><rect x="22" y="4" width="4" height="8" fill="none" stroke="#C8A96E" stroke-width="0.8"/><rect x="22" y="36" width="4" height="8" fill="none" stroke="#C8A96E" stroke-width="0.8"/><rect x="4" y="22" width="8" height="4" fill="none" stroke="#C8A96E" stroke-width="0.8"/><rect x="36" y="22" width="8" height="4" fill="none" stroke="#C8A96E" stroke-width="0.8"/><rect x="8" y="8" width="4" height="7" fill="none" stroke="#C8A96E" stroke-width="0.7" transform="rotate(45 10 11.5)"/><rect x="36" y="8" width="4" height="7" fill="none" stroke="#C8A96E" stroke-width="0.7" transform="rotate(-45 38 11.5)"/><rect x="8" y="33" width="4" height="7" fill="none" stroke="#C8A96E" stroke-width="0.7" transform="rotate(-45 10 36.5)"/><rect x="36" y="33" width="4" height="7" fill="none" stroke="#C8A96E" stroke-width="0.7" transform="rotate(45 38 36.5)"/><path d="M26 18 L21 25 L24 25 L22 32 L28 23 L25 23 Z" fill="#C8A96E" opacity="0.85"/></svg></span><div class="diff-title">Systems, Not Services</div><div class="diff-desc">We don't give advice. We build the infrastructure that lets you manage, protect, and leverage your IP on your own terms.</div></div>
+      <div class="diff-card"><span class="diff-icon"><svg width="36" height="36" viewBox="0 0 48 48" fill="none"><rect x="4" y="6" width="14" height="10" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.08)"/><rect x="30" y="6" width="14" height="10" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="17" y="22" width="14" height="10" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.12)"/><rect x="4" y="38" width="14" height="8" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="30" y="38" width="14" height="8" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.06)"/><line x1="18" y1="11" x2="30" y2="11" stroke="#C8A96E" stroke-width="0.8"/><line x1="11" y1="16" x2="24" y2="22" stroke="#C8A96E" stroke-width="0.8"/><line x1="37" y1="16" x2="24" y2="22" stroke="#C8A96E" stroke-width="0.8"/><line x1="17" y1="32" x2="11" y2="38" stroke="#C8A96E" stroke-width="0.8"/><line x1="31" y1="32" x2="37" y2="38" stroke="#C8A96E" stroke-width="0.8"/></svg></span><div class="diff-title">Automation, Not Admin</div><div class="diff-desc">Every system we build is designed to run with minimal manual effort — so you focus on your business, not your IP calendar.</div></div>
+      <div class="diff-card"><span class="diff-icon"><svg width="36" height="36" viewBox="0 0 48 48" fill="none"><circle cx="20" cy="20" r="13" stroke="#C8A96E" stroke-width="1" fill="none"/><circle cx="20" cy="20" r="8" stroke="#C8A96E" stroke-width="0.5" fill="none" opacity="0.3"/><line x1="30" y1="30" x2="44" y2="44" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/><rect x="11" y="18" width="18" height="4" fill="none" stroke="#C8A96E" stroke-width="0.7" opacity="0.5"/><rect x="18" y="11" width="4" height="18" fill="none" stroke="#C8A96E" stroke-width="0.7" opacity="0.5"/><circle cx="20" cy="20" r="2" fill="#C8A96E"/></svg></span><div class="diff-title">Clarity, Not Complexity</div><div class="diff-desc">No legal jargon. No overwhelming processes. Just clear, structured systems any founder can understand and use immediately.</div></div>
+      <div class="diff-card"><span class="diff-icon"><svg width="36" height="36" viewBox="0 0 48 48" fill="none"><rect x="4" y="14" width="40" height="30" stroke="#C8A96E" stroke-width="1" fill="none"/><path d="M14 14 L14 8 Q14 4 18 4 L30 4 Q34 4 34 8 L34 14" stroke="#C8A96E" stroke-width="1" fill="none"/><line x1="4" y1="24" x2="44" y2="24" stroke="#C8A96E" stroke-width="0.6" opacity="0.4"/><rect x="10" y="30" width="8" height="8" stroke="#C8A96E" stroke-width="0.7" fill="rgba(200,169,110,0.08)"/><rect x="22" y="30" width="8" height="8" stroke="#C8A96E" stroke-width="0.7" fill="none"/><rect x="34" y="30" width="6" height="8" stroke="#C8A96E" stroke-width="0.7" fill="rgba(200,169,110,0.05)"/><circle cx="24" cy="19" r="2" fill="#C8A96E" opacity="0.6"/></svg></span><div class="diff-title">Built for Small Business</div><div class="diff-desc">Not corporations. Not law firms. Everything we build is designed specifically for the scale, pace, and reality of a small business.</div></div>
+    </div>
+  </section>
+
+  <!-- HIGHER EDUCATION SECTION -->
+  <section style="background:var(--bg2);">
+    <div class="reveal">
+      <div class="section-label">Higher Education</div>
+      <h2 class="section-h2">Universities are sitting on<br>billions in <em>dormant IP.</em></h2>
+      <p class="section-sub" style="margin-bottom:48px;">Most colleges and universities have patents, research IP, curriculum systems, and proprietary methodologies collecting dust — not because they don't care, but because they don't have the systems to manage, track, and monetize them. That's where IP Architech™ comes in.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:48px;" class="reveal">
+      <div style="background:var(--card);padding:36px 28px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:8px;">$1T+</div>
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);">Estimated dormant university IP value in the US</div>
+      </div>
+      <div style="background:var(--card2);padding:36px 28px;border-top:2px solid var(--gold);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:8px;">80%</div>
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);">Of university patents generate zero licensing revenue</div>
+      </div>
+      <div style="background:var(--card);padding:36px 28px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:8px;">14+</div>
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);">Years of academic experience behind every IP Architech™ system</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);" class="reveal">
+      <div style="background:var(--card);padding:36px 32px;">
+        <div class="section-label">Who We Serve</div>
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);">
+            <span style="color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;margin-top:3px;flex-shrink:0;">✦</span>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--white);margin-bottom:4px;">Community Colleges</div>
+              <div style="font-size:12px;color:var(--muted);line-height:1.7;">Curriculum IP, teaching methodologies, and digital content systems that need organization and protection.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);">
+            <span style="color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;margin-top:3px;flex-shrink:0;">✦</span>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--white);margin-bottom:4px;">Private Universities</div>
+              <div style="font-size:12px;color:var(--muted);line-height:1.7;">Brand equity, research IP, patent portfolios, and licensing opportunities that go unmanaged and unmonetized.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);">
+            <span style="color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;margin-top:3px;flex-shrink:0;">✦</span>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--white);margin-bottom:4px;">HBCUs</div>
+              <div style="font-size:12px;color:var(--muted);line-height:1.7;">Historically underserved in IP management infrastructure — with real research and curriculum IP worth protecting and monetizing.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 0;">
+            <span style="color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;margin-top:3px;flex-shrink:0;">✦</span>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--white);margin-bottom:4px;">Research Institutions</div>
+              <div style="font-size:12px;color:var(--muted);line-height:1.7;">Technology transfer support, patent renewal tracking, and licensing pipeline management for overwhelmed TTO offices.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--card);padding:36px 32px;">
+        <div class="section-label">What We Build for Institutions</div>
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);">
+            <span style="color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;margin-top:3px;flex-shrink:0;">01</span>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--white);margin-bottom:4px;">IP Audit & Discovery</div>
+              <div style="font-size:12px;color:var(--muted);line-height:1.7;">Identify ALL dormant patents, research IP, curriculum assets, and licensing opportunities across departments. $5,000–$15,000</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);">
+            <span style="color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;margin-top:3px;flex-shrink:0;">02</span>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--white);margin-bottom:4px;">IP Organization System</div>
+              <div style="font-size:12px;color:var(--muted);line-height:1.7;">Full dashboard, patent renewal tracking, research IP documentation, and compliance calendar. $10,000–$25,000</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);">
+            <span style="color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;margin-top:3px;flex-shrink:0;">03</span>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--white);margin-bottom:4px;">Licensing Pipeline</div>
+              <div style="font-size:12px;color:var(--muted);line-height:1.7;">Identify potential licensees, structure licensing frameworks, and create a sustainable revenue pipeline. $25,000–$75,000</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 0;">
+            <span style="color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;margin-top:3px;flex-shrink:0;">04</span>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--white);margin-bottom:4px;">Ongoing Management</div>
+              <div style="font-size:12px;color:var(--muted);line-height:1.7;">Monthly IP management, renewal tracking, compliance updates, and licensing opportunity identification. $2,500/month</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:2px;background:rgba(200,169,110,0.06);border:1px solid rgba(200,169,110,0.2);padding:40px 48px;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap;" class="reveal">
+      <div>
+        <div class="section-label">Book an Institutional Consultation</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,34px);font-weight:300;color:var(--white);line-height:1.2;margin-bottom:10px;">Is your institution sitting on<br>IP it doesn't know it owns?</h3>
+        <p style="font-size:13px;color:var(--muted2);max-width:480px;line-height:1.8;">With 14+ years of academic experience, we understand the unique IP landscape of higher education — and how to build the systems to organize, protect, and monetize it.</p>
+      </div>
+      <button class="btn-primary" onclick="showPage('contact')">Book Institutional Consultation →</button>
+    </div>
+  </section>
+
+  <section class="cta-band alt-bg">
+    <div class="cta-band-bg"></div>
+    <div class="cta-band-inner reveal">
+      <div class="section-label" style="justify-content:center">Start Here</div>
+      <h2 class="cta-h">Find out what your<br>IP is <em>actually</em> worth.</h2>
+      <p class="cta-sub">Our free 3-minute IP Audit gives you a personalized report and a clear next step.</p>
+      <button class="btn-primary" onclick="showPage('home');setTimeout(()=>document.getElementById('audit').scrollIntoView({behavior:'smooth'}),100);">Take the Free IP Audit →</button>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-logo">IP Architech™</div>
+    <div class="footer-links"><a href="#" onclick="showPage('home');return false;">Home</a><a href="#" onclick="showPage('services');return false;">Services</a><a href="#" onclick="showPage('pricing');return false;">Pricing</a><a href="#" onclick="showPage('contact');return false;">Contact</a></div>
+    <div class="footer-copy">© 2026 IP Architech™ · Not legal or financial advice</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SERVICES PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-services">
+  <div class="services-page-hero">
+    <div class="section-label">Our Systems</div>
+    <h1 class="hero-h1" style="font-size:clamp(44px,7vw,84px);">Eight systems.<br>One <em>infrastructure.</em></h1>
+    <p class="section-sub" style="margin-top:20px;max-width:520px;">Not legal services. Not financial advice. Pure digital tools, dashboards, templates, and automations — built to give small businesses the IP infrastructure they deserve.</p>
+  </div>
+
+  <section style="padding-top:0">
+    <div class="services-detail-grid reveal">
+      <div class="svc-detail-card"><div class="svc-detail-num">01</div><span class="svc-detail-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none"><rect x="4" y="4" width="40" height="40" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="4" y="4" width="18" height="18" fill="rgba(200,169,110,0.07)" stroke="#C8A96E" stroke-width="0.7"/><rect x="26" y="4" width="18" height="8" fill="rgba(200,169,110,0.12)" stroke="#C8A96E" stroke-width="0.7"/><rect x="26" y="16" width="18" height="6" fill="none" stroke="#C8A96E" stroke-width="0.7"/><rect x="4" y="26" width="40" height="18" fill="none" stroke="#C8A96E" stroke-width="0.7"/><rect x="8" y="36" width="4" height="6" fill="#C8A96E" opacity="0.5"/><rect x="14" y="32" width="4" height="10" fill="#C8A96E" opacity="0.7"/><rect x="20" y="29" width="4" height="13" fill="#C8A96E"/><rect x="26" y="34" width="4" height="8" fill="#C8A96E" opacity="0.4"/><rect x="32" y="31" width="4" height="11" fill="#C8A96E" opacity="0.65"/><rect x="11" y="10" width="7" height="7" fill="none" stroke="#C8A96E" stroke-width="1" transform="rotate(45 14.5 13.5)"/><rect x="13" y="12" width="3" height="3" fill="#C8A96E" transform="rotate(45 14.5 13.5)"/></svg></span><div class="svc-detail-name">IP Intelligence Dashboard</div><div class="svc-detail-desc">A complete, real-time view of every IP asset you own — trademarks, copyrights, domain names, licenses, creative works, and digital properties — organized in one central command center. Stop hunting through folders. Start managing your IP like a business.</div><span class="svc-detail-tag">Dashboard</span></div>
+
+      <div class="svc-detail-card"><div class="svc-detail-num">02</div><span class="svc-detail-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none"><rect x="4" y="8" width="40" height="36" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="4" y="8" width="40" height="9" fill="rgba(200,169,110,0.12)" stroke="#C8A96E" stroke-width="1"/><line x1="15" y1="4" x2="15" y2="12" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/><line x1="33" y1="4" x2="33" y2="12" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/><line x1="4" y1="23" x2="44" y2="23" stroke="#C8A96E" stroke-width="0.4" opacity="0.4"/><line x1="4" y1="31" x2="44" y2="31" stroke="#C8A96E" stroke-width="0.4" opacity="0.4"/><line x1="4" y1="39" x2="44" y2="39" stroke="#C8A96E" stroke-width="0.4" opacity="0.4"/><line x1="17" y1="17" x2="17" y2="44" stroke="#C8A96E" stroke-width="0.4" opacity="0.4"/><line x1="30" y1="17" x2="30" y2="44" stroke="#C8A96E" stroke-width="0.4" opacity="0.4"/><rect x="18" y="25" width="11" height="8" fill="rgba(200,169,110,0.15)" stroke="#C8A96E" stroke-width="0.8"/><circle cx="9" cy="27" r="1.5" fill="#C8A96E" opacity="0.5"/><circle cx="36" cy="19" r="1.5" fill="#C8A96E"/></svg></span><div class="svc-detail-name">IP Compliance Calendar</div><div class="svc-detail-desc">A structured, automated calendar system for every IP deadline, renewal date, and compliance requirement your business has. Built-in alerts and timeline views mean you're always ahead — never scrambling after a missed deadline.</div><span class="svc-detail-tag">Calendar System</span></div>
+
+      <div class="svc-detail-card"><div class="svc-detail-num">03</div><span class="svc-detail-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="26" r="18" stroke="#C8A96E" stroke-width="1" fill="none"/><circle cx="24" cy="26" r="14" stroke="#C8A96E" stroke-width="0.5" fill="none" opacity="0.3"/><line x1="24" y1="26" x2="24" y2="14" stroke="#C8A96E" stroke-width="1.5" stroke-linecap="round"/><line x1="24" y1="26" x2="33" y2="22" stroke="#C8A96E" stroke-width="1" stroke-linecap="round"/><circle cx="24" cy="26" r="2" fill="#C8A96E"/><path d="M24 8 A18 18 0 0 1 42 26" stroke="#C8A96E" stroke-width="2.5" stroke-linecap="round" fill="none"/><rect x="22" y="5" width="4" height="4" stroke="#C8A96E" stroke-width="1" fill="none"/><line x1="20" y1="5" x2="28" y2="5" stroke="#C8A96E" stroke-width="1"/></svg></span><div class="svc-detail-name">Renewal Countdown System</div><div class="svc-detail-desc">Live countdown timers on every expiring trademark, domain, license, and subscription. Configured to alert you weeks in advance — so you have time to act, not just react. Never lose an asset to a lapsed renewal again.</div><span class="svc-detail-tag">Automation</span></div>
+
+      <div class="svc-detail-card"><div class="svc-detail-num">04</div><span class="svc-detail-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none"><path d="M8 4 L32 4 L40 12 L40 44 L8 44 Z" stroke="#C8A96E" stroke-width="1" fill="none"/><path d="M32 4 L32 12 L40 12" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="32" y="4" width="8" height="8" fill="rgba(200,169,110,0.08)"/><line x1="14" y1="20" x2="34" y2="20" stroke="#C8A96E" stroke-width="0.8" opacity="0.5"/><line x1="14" y1="26" x2="34" y2="26" stroke="#C8A96E" stroke-width="0.8" opacity="0.5"/><line x1="14" y1="32" x2="26" y2="32" stroke="#C8A96E" stroke-width="0.8" opacity="0.5"/><circle cx="32" cy="34" r="7" fill="#07070C" stroke="#C8A96E" stroke-width="1"/><circle cx="30" cy="32" r="3" fill="none" stroke="#C8A96E" stroke-width="1"/><line x1="32" y1="34" x2="38" y2="38" stroke="#C8A96E" stroke-width="1.2" stroke-linecap="round"/></svg></span><div class="svc-detail-name">Licensing Tracker</div><div class="svc-detail-desc">A complete tracker for every license you issue to others or hold from third parties. Tracks terms, expiration dates, revenue, and usage rights in one organized system. Turn your IP into a documented revenue stream.</div><span class="svc-detail-tag">Tracker</span></div>
+
+      <div class="svc-detail-card"><div class="svc-detail-num">05</div><span class="svc-detail-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none"><rect x="4" y="6" width="14" height="10" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.08)"/><rect x="30" y="6" width="14" height="10" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="17" y="22" width="14" height="10" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.12)"/><rect x="4" y="38" width="14" height="8" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="30" y="38" width="14" height="8" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.06)"/><line x1="18" y1="11" x2="30" y2="11" stroke="#C8A96E" stroke-width="0.8"/><line x1="11" y1="16" x2="24" y2="22" stroke="#C8A96E" stroke-width="0.8"/><line x1="37" y1="16" x2="24" y2="22" stroke="#C8A96E" stroke-width="0.8"/><line x1="17" y1="32" x2="11" y2="38" stroke="#C8A96E" stroke-width="0.8"/><line x1="31" y1="32" x2="37" y2="38" stroke="#C8A96E" stroke-width="0.8"/></svg></span><div class="svc-detail-name">Documentation Workflows</div><div class="svc-detail-desc">Structured templates and step-by-step processes for capturing, storing, versioning, and retrieving every piece of IP documentation your business generates. From creation records to licensing agreements — everything documented, nothing lost.</div><span class="svc-detail-tag">Templates & Workflow</span></div>
+
+      <div class="svc-detail-card"><div class="svc-detail-num">06</div><span class="svc-detail-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none"><rect x="4" y="16" width="40" height="28" rx="1" stroke="#C8A96E" stroke-width="1" fill="none"/><path d="M16 16 L16 10 Q16 6 20 6 L28 6 Q32 6 32 10 L32 16" stroke="#C8A96E" stroke-width="1" fill="none"/><line x1="4" y1="27" x2="44" y2="27" stroke="#C8A96E" stroke-width="0.8" opacity="0.5"/><rect x="20" y="24" width="8" height="6" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.15)"/><polygon points="24,34 25.5,38.5 30,38.5 26.5,41 28,45.5 24,43 20,45.5 21.5,41 18,38.5 22.5,38.5" fill="none" stroke="#C8A96E" stroke-width="0.7" opacity="0.6"/><circle cx="24" cy="39" r="2" fill="#C8A96E" opacity="0.8"/></svg></span><div class="svc-detail-name">Lender-Ready IP Packaging</div><div class="svc-detail-desc">A professionally structured IP portfolio package designed to satisfy lender and investor due diligence requests. When opportunity knocks, you'll have a complete, organized IP package ready to present — not a week of scrambling.</div><span class="svc-detail-tag">Packaging System</span></div>
+
+      <div class="svc-detail-card"><div class="svc-detail-num">07</div><span class="svc-detail-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none"><path d="M4 18 L4 42 L44 42 L44 18 L22 18 L18 14 L4 14 Z" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.05)"/><path d="M8 14 L8 10 L24 10 L28 14" stroke="#C8A96E" stroke-width="0.7" fill="none" opacity="0.5"/><rect x="10" y="24" width="8" height="10" stroke="#C8A96E" stroke-width="0.7" fill="rgba(200,169,110,0.1)"/><rect x="20" y="24" width="8" height="10" stroke="#C8A96E" stroke-width="0.7" fill="none"/><rect x="30" y="24" width="8" height="10" stroke="#C8A96E" stroke-width="0.7" fill="rgba(200,169,110,0.06)"/><path d="M10 24 L14 24 L14 28 Z" fill="#C8A96E" opacity="0.4"/></svg></span><div class="svc-detail-name">Digital Asset Organization System</div><div class="svc-detail-desc">A complete organizational system for every digital asset your brand has produced — logos, photography, creative files, brand assets, and more. Hierarchical, searchable, and built to scale as your library grows.</div><span class="svc-detail-tag">Organization System</span></div>
+
+      <div class="svc-detail-card"><div class="svc-detail-num">08</div><span class="svc-detail-icon"><svg width="44" height="44" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="8" stroke="#C8A96E" stroke-width="1" fill="none"/><circle cx="24" cy="24" r="3" fill="#C8A96E" opacity="0.7"/><rect x="22" y="4" width="4" height="8" fill="none" stroke="#C8A96E" stroke-width="0.8"/><rect x="22" y="36" width="4" height="8" fill="none" stroke="#C8A96E" stroke-width="0.8"/><rect x="4" y="22" width="8" height="4" fill="none" stroke="#C8A96E" stroke-width="0.8"/><rect x="36" y="22" width="8" height="4" fill="none" stroke="#C8A96E" stroke-width="0.8"/><rect x="8" y="8" width="4" height="7" fill="none" stroke="#C8A96E" stroke-width="0.7" transform="rotate(45 10 11.5)"/><rect x="36" y="8" width="4" height="7" fill="none" stroke="#C8A96E" stroke-width="0.7" transform="rotate(-45 38 11.5)"/><rect x="8" y="33" width="4" height="7" fill="none" stroke="#C8A96E" stroke-width="0.7" transform="rotate(-45 10 36.5)"/><rect x="36" y="33" width="4" height="7" fill="none" stroke="#C8A96E" stroke-width="0.7" transform="rotate(45 38 36.5)"/><path d="M26 18 L21 25 L24 25 L22 32 L28 23 L25 23 Z" fill="#C8A96E" opacity="0.85"/></svg></span><div class="svc-detail-name">No-Code Automation Workflows</div><div class="svc-detail-desc">Automated workflows for the most time-consuming IP management tasks — built entirely without code. Renewal reminders, documentation triggers, compliance alerts, and more — running automatically so you don't have to.</div><span class="svc-detail-tag">No-Code Automation</span></div>
+    </div>
+  </section>
+
+  <section class="cta-band alt-bg">
+    <div class="cta-band-bg"></div>
+    <div class="cta-band-inner reveal">
+      <h2 class="cta-h">Not sure which system<br>you need <em>first?</em></h2>
+      <p class="cta-sub">Take the free IP Audit and we'll tell you exactly where to start.</p>
+      <button class="btn-primary" onclick="showPage('home');setTimeout(()=>document.getElementById('audit').scrollIntoView({behavior:'smooth'}),100);">Take the Free IP Audit →</button>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-logo">IP Architech™</div>
+    <div class="footer-links"><a href="#" onclick="showPage('home');return false;">Home</a><a href="#" onclick="showPage('pricing');return false;">Pricing</a><a href="#" onclick="showPage('contact');return false;">Contact</a></div>
+    <div class="footer-copy">© 2026 IP Architech™ · Not legal or financial advice</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PRICING PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-pricing">
+  <div class="pricing-hero">
+    <div class="section-label">Pricing</div>
+    <h1 class="hero-h1" style="font-size:clamp(44px,7vw,84px);">Simple, transparent<br><em>pricing.</em></h1>
+    <p class="section-sub" style="margin-top:20px;">Choose the level of IP infrastructure that fits your business. No legal fees. No hourly billing. Pure digital systems.</p>
+  </div>
+
+  <section style="padding-top:0">
+    <div class="pricing-grid reveal">
+      <div class="price-card">
+        <div class="price-tier">Starter</div>
+        <div class="price-name">Foundation</div>
+        <div class="price-tagline">For new businesses building their first IP infrastructure</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>IP Audit (personalized report)</li>
+          <li>IP Intelligence Dashboard</li>
+          <li>Renewal Countdown System</li>
+          <li>Digital Asset Organization System</li>
+          <li>Email support</li>
+        </ul>
+        <div class="price-amount">$$<span>/one-time</span></div>
+        <div style="height:16px"></div>
+        <a href="#" class="price-btn" onclick="showPage('contact');return false;">Get Started →</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">Most Popular</div>
+        <div class="price-tier">Growth</div>
+        <div class="price-name">Infrastructure</div>
+        <div class="price-tagline">For scaling businesses ready to leverage and protect their IP</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Everything in Foundation</li>
+          <li>IP Compliance Calendar</li>
+          <li>Licensing Tracker</li>
+          <li>Documentation Workflows</li>
+          <li>Lender-Ready IP Packaging</li>
+          <li>Priority support</li>
+        </ul>
+        <div class="price-amount">$$$<span>/one-time</span></div>
+        <div style="height:16px"></div>
+        <a href="#" class="price-btn" onclick="showPage('contact');return false;">Get Started →</a>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Architect</div>
+        <div class="price-name">Full Build</div>
+        <div class="price-tagline">All 8 systems. Custom automation. Complete IP infrastructure.</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>All 8 IP systems</li>
+          <li>Custom no-code automation workflows</li>
+          <li>Commercialization roadmap</li>
+          <li>Licensing pathway architecture</li>
+          <li>Quarterly IP review</li>
+          <li>Dedicated support</li>
+        </ul>
+        <div class="price-amount" style="font-size:32px;padding-top:8px;">Custom<span> quote</span></div>
+        <div style="height:16px"></div>
+        <a href="#" class="price-btn" onclick="showPage('contact');return false;">Request Pricing →</a>
+      </div>
+    </div>
+    <p style="text-align:center;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;color:var(--muted);margin-top:28px;">All systems are digital tools and templates only · Not legal or financial services</p>
+    <!-- IP SHIELD ADD-ON -->
+    <div style="margin-top:48px;background:rgba(217,79,79,0.05);border:1px solid rgba(217,79,79,0.2);padding:40px 44px;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap;" class="reveal">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:#E05C5C;margin-bottom:12px;display:flex;align-items:center;gap:10px;"><span style="display:inline-block;width:14px;height:1px;background:#E05C5C;"></span>Add-On · IP Risk Defense Bundle</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,32px);font-weight:300;color:var(--white);line-height:1.2;margin-bottom:10px;">$1M–$10M IP Litigation Coverage<br>available with any <em>package.</em></h3>
+        <p style="font-size:13px;line-height:1.8;color:var(--muted2);max-width:520px;">As part of your IP Risk Assessment, we identify your litigation exposure and guide you through securing defense-grade IP coverage — integrated into your overall strategy. Troll defense, infringement defense, attorney fees, court costs, and settlement costs.</p>
+      </div>
+      <button class="btn-primary" onclick="showPage('shield')" style="white-space:nowrap;flex-shrink:0;">Learn About IP Shield →</button>
+    </div>
+  </section>
+
+  <section class="cta-band alt-bg">
+    <div class="cta-band-bg"></div>
+    <div class="cta-band-inner reveal">
+      <h2 class="cta-h">Start with the <em>audit.</em><br>It's free.</h2>
+      <p class="cta-sub">Understand exactly what you need before you invest in anything.</p>
+      <button class="btn-primary" onclick="showPage('home');setTimeout(()=>document.getElementById('audit').scrollIntoView({behavior:'smooth'}),100);">Take the Free IP Audit →</button>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-logo">IP Architech™</div>
+    <div class="footer-links"><a href="#" onclick="showPage('home');return false;">Home</a><a href="#" onclick="showPage('services');return false;">Services</a><a href="#" onclick="showPage('contact');return false;">Contact</a></div>
+    <div class="footer-copy">© 2026 IP Architech™ · Not legal or financial advice</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CASE STUDIES PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-cases">
+  <div class="cases-hero">
+    <div class="section-label">Case Studies</div>
+    <h1 class="hero-h1" style="font-size:clamp(44px,7vw,84px);">Before &amp; after<br><em>transformations.</em></h1>
+    <p class="section-sub" style="margin-top:20px;">What happens when small business owners finally get their IP organized, protected, and working for them.</p>
+  </div>
+
+  <section style="padding-top:0">
+    <div class="case-grid reveal">
+      <div class="case-card">
+        <div><div class="case-num">01</div></div>
+        <div>
+          <div class="case-label">Brand Studio Owner</div>
+          <div class="case-title">From Chaos to Clarity</div>
+          <div class="case-cols">
+            <div class="before"><div class="case-col-lbl">Before</div><div class="case-col-text">Scattered files across three drives, missed trademark renewals, no licensing structure, unprotected creative assets, and no way to quickly answer a lender's due diligence request.</div></div>
+            <div class="after"><div class="case-col-lbl">After</div><div class="case-col-text">Full IP Intelligence Dashboard, automated compliance calendar, licensing revenue unlocked, and a lender-ready IP package that helped secure a business line of credit within 60 days.</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div><div class="case-num">02</div></div>
+        <div>
+          <div class="case-label">Product Founder</div>
+          <div class="case-title">Investor-Ready in 30 Days</div>
+          <div class="case-cols">
+            <div class="before"><div class="case-col-lbl">Before</div><div class="case-col-text">Disorganized IP documentation, no renewal tracking system, a trademark renewal lapsed without the founder's knowledge, and no clear picture of total IP value.</div></div>
+            <div class="after"><div class="case-col-lbl">After</div><div class="case-col-text">Renewal Countdown System caught two at-risk assets. Lender-Ready IP Package completed in 30 days. Investor due diligence passed. Funding approved.</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div><div class="case-num">03</div></div>
+        <div>
+          <div class="case-label">Creative Agency</div>
+          <div class="case-title">Creative IP Protection</div>
+          <div class="case-cols">
+            <div class="before"><div class="case-col-lbl">Before</div><div class="case-col-text">Years of creative work — photography, copy, brand assets, course content — completely unprotected and undocumented. Competitor had begun using assets without permission.</div></div>
+            <div class="after"><div class="case-col-lbl">After</div><div class="case-col-text">Structured copyright documentation system, digital asset organization, and licensing framework implemented. First licensing deal closed within 90 days of system deployment.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band alt-bg">
+    <div class="cta-band-bg"></div>
+    <div class="cta-band-inner reveal">
+      <h2 class="cta-h">Start your own<br><em>transformation.</em></h2>
+      <p class="cta-sub">Take the free IP Audit and find out exactly where your IP stands today.</p>
+      <button class="btn-primary" onclick="showPage('home');setTimeout(()=>document.getElementById('audit').scrollIntoView({behavior:'smooth'}),100);">Take the Free IP Audit →</button>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-logo">IP Architech™</div>
+    <div class="footer-links"><a href="#" onclick="showPage('home');return false;">Home</a><a href="#" onclick="showPage('services');return false;">Services</a><a href="#" onclick="showPage('contact');return false;">Contact</a></div>
+    <div class="footer-copy">© 2026 IP Architech™ · Not legal or financial advice</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     RESOURCES PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-resources">
+  <div class="resources-hero">
+    <div class="section-label">Resources</div>
+    <h1 class="hero-h1" style="font-size:clamp(44px,7vw,84px);">Guides &amp;<br><em>frameworks.</em></h1>
+    <p class="section-sub" style="margin-top:20px;">Free tools, checklists, and guides to help small business owners understand and organize their intellectual property.</p>
+  </div>
+
+  <section style="padding-top:0">
+    <div class="resources-grid reveal">
+      <div class="resource-card"><span class="resource-icon"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="8" y="4" width="28" height="38" rx="0" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="8" y="4" width="28" height="8" fill="rgba(200,169,110,0.12)" stroke="#C8A96E" stroke-width="1"/><line x1="14" y1="20" x2="30" y2="20" stroke="#C8A96E" stroke-width="0.8" opacity="0.6"/><line x1="14" y1="26" x2="30" y2="26" stroke="#C8A96E" stroke-width="0.8" opacity="0.6"/><line x1="14" y1="32" x2="24" y2="32" stroke="#C8A96E" stroke-width="0.8" opacity="0.6"/><rect x="35" y="30" width="5" height="12" fill="#C8A96E" opacity="0.2" stroke="#C8A96E" stroke-width="0.5"/><rect x="35" y="24" width="5" height="4" fill="#C8A96E" opacity="0.5" stroke="#C8A96E" stroke-width="0.5"/></svg></span><div class="resource-cat">Guide</div><div class="resource-title">IP Basics for Small Businesses</div><div class="resource-desc">A plain-English breakdown of what intellectual property is, what types you likely own, and why it matters for your business right now.</div><span class="resource-dl">Download Free →</span></div>
+
+      <div class="resource-card"><span class="resource-icon"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><path d="M6 8 L24 2 L42 8 L42 32 Q42 44 24 46 Q6 44 6 32 Z" fill="none" stroke="#C8A96E" stroke-width="1"/><path d="M12 13 L24 9 L36 13 L36 30 Q36 40 24 43 Q12 40 12 30 Z" fill="none" stroke="#C8A96E" stroke-width="0.5" opacity="0.3"/><path d="M16 26 L22 32 L34 18" stroke="#C8A96E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="resource-cat">Guide</div><div class="resource-title">How to Protect Your Creative Work</div><div class="resource-desc">Step-by-step guidance on documenting, organizing, and protecting original creative assets — without a lawyer on retainer.</div><span class="resource-dl">Download Free →</span></div>
+
+      <div class="resource-card"><span class="resource-icon"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><path d="M8 4 L32 4 L40 12 L40 44 L8 44 Z" stroke="#C8A96E" stroke-width="1" fill="none"/><path d="M32 4 L32 12 L40 12" stroke="#C8A96E" stroke-width="1" fill="none"/><rect x="32" y="4" width="8" height="8" fill="rgba(200,169,110,0.08)"/><line x1="14" y1="20" x2="34" y2="20" stroke="#C8A96E" stroke-width="0.8" opacity="0.5"/><line x1="14" y1="26" x2="34" y2="26" stroke="#C8A96E" stroke-width="0.8" opacity="0.5"/><circle cx="17" cy="33" r="2" fill="none" stroke="#C8A96E" stroke-width="0.8"/><line x1="22" y1="33" x2="34" y2="33" stroke="#C8A96E" stroke-width="0.8" opacity="0.5"/></svg></span><div class="resource-cat">Framework</div><div class="resource-title">Licensing Models Explained</div><div class="resource-desc">The three most common licensing structures for small businesses, when to use each, and how to set up your first licensing framework.</div><span class="resource-dl">Download Free →</span></div>
+
+      <div class="resource-card"><span class="resource-icon"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="36" height="36" stroke="#C8A96E" stroke-width="1" fill="none"/><path d="M16 24 L22 30 L34 16" stroke="#C8A96E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="6" y1="16" x2="42" y2="16" stroke="#C8A96E" stroke-width="0.5" opacity="0.3"/><line x1="6" y1="32" x2="42" y2="32" stroke="#C8A96E" stroke-width="0.5" opacity="0.3"/><line x1="16" y1="6" x2="16" y2="42" stroke="#C8A96E" stroke-width="0.5" opacity="0.3"/><line x1="32" y1="6" x2="32" y2="42" stroke="#C8A96E" stroke-width="0.5" opacity="0.3"/></svg></span><div class="resource-cat">Checklist</div><div class="resource-title">The IP Compliance Checklist</div><div class="resource-desc">A comprehensive checklist of every IP compliance task your business should have systems for — with guidance on how to handle each one.</div><span class="resource-dl">Download Free →</span></div>
+
+      <div class="resource-card"><span class="resource-icon"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><path d="M4 18 L4 42 L44 42 L44 18 L22 18 L18 14 L4 14 Z" stroke="#C8A96E" stroke-width="1" fill="rgba(200,169,110,0.05)"/><path d="M8 14 L8 10 L24 10 L28 14" stroke="#C8A96E" stroke-width="0.7" fill="none" opacity="0.5"/><rect x="10" y="24" width="8" height="10" stroke="#C8A96E" stroke-width="0.7" fill="rgba(200,169,110,0.1)"/><rect x="20" y="24" width="8" height="10" stroke="#C8A96E" stroke-width="0.7" fill="none"/><rect x="30" y="24" width="8" height="10" stroke="#C8A96E" stroke-width="0.7" fill="rgba(200,169,110,0.06)"/><path d="M10 24 L14 24 L14 28 Z" fill="#C8A96E" opacity="0.5"/></svg></span><div class="resource-cat">Guide</div><div class="resource-title">Digital Asset Organization Guide</div><div class="resource-desc">How to build a naming convention, folder structure, and metadata system for your digital assets that actually holds up over time.</div><span class="resource-dl">Download Free →</span></div>
+
+      <div class="resource-card"><span class="resource-icon"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><path d="M6 8 L24 2 L42 8 L42 70 Q42 44 24 46 Q6 44 6 32 Z" fill="none" stroke="#C8A96E" stroke-width="1"/><path d="M6 8 L24 2 L42 8 L42 32 Q42 44 24 46 Q6 44 6 32 Z" fill="none" stroke="#C8A96E" stroke-width="1"/><path d="M14 14 L24 10 L34 14" stroke="#C8A96E" stroke-width="0.6" opacity="0.3"/><path d="M24 18 L18 38 M24 18 L30 38 M20 30 L28 30" stroke="#C8A96E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="21" y="13" width="6" height="6" fill="#C8A96E" opacity="0.8" transform="rotate(45 24 16)"/></svg></span><div class="resource-cat">Framework</div><div class="resource-title">The IP Architech™ Framework</div><div class="resource-desc">The complete methodology behind every system we build — how we audit, organize, protect, and leverage IP for small businesses.</div><span class="resource-dl">Download Free →</span></div>
+    </div>
+  </section>
+
+  <section class="cta-band alt-bg">
+    <div class="cta-band-bg"></div>
+    <div class="cta-band-inner reveal">
+      <h2 class="cta-h">Ready to go beyond<br>the <em>guides?</em></h2>
+      <p class="cta-sub">Take the free IP Audit and get a personalized system recommendation in under 3 minutes.</p>
+      <button class="btn-primary" onclick="showPage('home');setTimeout(()=>document.getElementById('audit').scrollIntoView({behavior:'smooth'}),100);">Take the Free IP Audit →</button>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-logo">IP Architech™</div>
+    <div class="footer-links"><a href="#" onclick="showPage('home');return false;">Home</a><a href="#" onclick="showPage('services');return false;">Services</a><a href="#" onclick="showPage('contact');return false;">Contact</a></div>
+    <div class="footer-copy">© 2026 IP Architech™ · Not legal or financial advice</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CONTACT PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <div class="contact-hero">
+    <div class="section-label">Contact</div>
+    <h1 class="hero-h1" style="font-size:clamp(44px,7vw,84px);">Let's build your<br>IP <em>infrastructure.</em></h1>
+    <p class="section-sub" style="margin-top:20px;">Have a question about which system is right for you? Ready to get started? We'd love to hear from you.</p>
+  </div>
+
+  <section style="padding-top:0">
+    <div class="contact-grid reveal">
+      <div class="contact-info">
+        <div>
+          <div class="contact-item-lbl">Email</div>
+          <div class="contact-item-val">hello@iparchitech.co</div>
+        </div>
+        <div>
+          <div class="contact-item-lbl">Book a Call</div>
+          <div class="contact-item-val" style="font-size:16px;color:var(--muted2);">Schedule a 30-minute discovery call to discuss your IP needs and which systems are the right fit.</div>
+          <button class="btn-primary" style="margin-top:16px;">Book a Call →</button>
+        </div>
+        <div>
+          <div class="contact-item-lbl">Support Hours</div>
+          <div class="contact-item-val" style="font-size:16px;color:var(--muted2);">Monday – Friday<br>9:00 AM – 5:00 PM EST</div>
+        </div>
+        <div>
+          <div class="contact-item-lbl">Not sure where to start?</div>
+          <div class="contact-item-val" style="font-size:15px;color:var(--muted2);margin-bottom:12px;">Take the free 3-minute IP Audit first — it'll give you a clear picture of what you need before we talk.</div>
+          <button class="btn-ghost" onclick="showPage('home');setTimeout(()=>document.getElementById('audit').scrollIntoView({behavior:'smooth'}),100);">Take the Free Audit</button>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Send a Message</div>
+        <div class="contact-form">
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">First Name</label><input class="form-input" type="text" placeholder="Your first name"></div>
+            <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" type="text" placeholder="Your last name"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="your@email.com"></div>
+          <div class="form-group"><label class="form-label">Business Name</label><input class="form-input" type="text" placeholder="Your business name"></div>
+          <div class="form-group"><label class="form-label">How Can We Help?</label><textarea class="form-textarea" placeholder="Tell us about your business and what you're looking to accomplish..."></textarea></div>
+          <button class="btn-primary" style="width:100%">Send Message →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-logo">IP Architech™</div>
+    <div class="footer-links"><a href="#" onclick="showPage('home');return false;">Home</a><a href="#" onclick="showPage('services');return false;">Services</a><a href="#" onclick="showPage('pricing');return false;">Pricing</a></div>
+    <div class="footer-copy">© 2026 IP Architech™ · Not legal or financial advice</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     IP SHIELD PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-shield">
+  <div class="shield-hero">
+    <div class="shield-hero-bg"></div>
+    <div class="shield-hero-inner">
+      <div class="section-label">IP Risk Defense Bundle</div>
+      <h1 class="hero-h1" style="font-size:clamp(44px,7vw,84px);">What happens when<br>someone comes<br>after your <em>IP?</em></h1>
+      <p class="section-sub" style="margin-top:20px;max-width:580px;">Most small business owners never think about IP litigation — until it's too late. We make sure you never face that moment unprepared. The IP Risk Defense Bundle is how we protect everything you've built.</p>
+    </div>
+  </div>
+
+  <!-- COST REALITY -->
+  <section class="alt-bg" style="padding-top:0;">
+    <div style="text-align:center;margin-bottom:48px;" class="reveal">
+      <div class="section-label" style="justify-content:center;">The Reality</div>
+      <h2 class="section-h2" style="text-align:center;">IP litigation is a<br><em>financial emergency.</em></h2>
+      <p class="section-sub" style="text-align:center;margin:16px auto 0;max-width:520px;">Most small business owners have no idea what it actually costs to defend their IP in court. Here's what you're up against if you're unprotected.</p>
+    </div>
+    <div class="cost-band reveal">
+      <div class="cost-stat">
+        <div class="cost-num">$500K</div>
+        <div class="cost-lbl">Average Patent Troll Defense</div>
+      </div>
+      <div class="cost-divider"></div>
+      <div class="cost-stat">
+        <div class="cost-num">$1M–$5M</div>
+        <div class="cost-lbl">Trademark Infringement Litigation</div>
+      </div>
+      <div class="cost-divider"></div>
+      <div class="cost-stat">
+        <div class="cost-num">18mo</div>
+        <div class="cost-lbl">Average Time to Resolution</div>
+      </div>
+      <div class="cost-divider"></div>
+      <div class="cost-stat">
+        <div class="cost-num">87%</div>
+        <div class="cost-lbl">Small Businesses With No Coverage</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px;" class="reveal">
+      <p class="shield-intro-text">"An IP troll doesn't need to win the case. They just need to make the case expensive enough that you settle. Without defense coverage, they almost always win."</p>
+    </div>
+  </section>
+
+  <!-- WHAT IT COVERS -->
+  <section>
+    <div class="reveal">
+      <div class="section-label">Coverage</div>
+      <h2 class="section-h2">$1M–$10M in IP defense<br>coverage. <em>Fully integrated.</em></h2>
+      <p class="section-sub" style="margin-bottom:48px;">The IP Risk Defense Bundle is assessed, structured, and integrated into your IP strategy by IP Architech™ — so your coverage is aligned with your actual risk profile, not a generic policy.</p>
+    </div>
+    <div class="coverage-grid reveal">
+      <div class="coverage-card">
+        <span class="coverage-icon">🛡</span>
+        <div class="coverage-title">Troll Defense</div>
+        <div class="coverage-desc">Full coverage when patent trolls or bad-faith claimants target your business with frivolous or aggressive IP claims designed to force a settlement.</div>
+        <div class="coverage-amount">Covered up to policy limit</div>
+      </div>
+      <div class="coverage-card">
+        <span class="coverage-icon">⚖️</span>
+        <div class="coverage-title">Infringement Defense</div>
+        <div class="coverage-desc">Defense coverage when a third party alleges you have infringed their trademark, copyright, or patent — whether the claim is valid or not.</div>
+        <div class="coverage-amount">Covered up to policy limit</div>
+      </div>
+      <div class="coverage-card">
+        <span class="coverage-icon">🏛</span>
+        <div class="coverage-title">Court & Filing Fees</div>
+        <div class="coverage-desc">All court costs, filing fees, and administrative legal expenses associated with your IP defense — covered from day one of a claim.</div>
+        <div class="coverage-amount">Covered up to policy limit</div>
+      </div>
+      <div class="coverage-card">
+        <span class="coverage-icon">👔</span>
+        <div class="coverage-title">Attorney Fees</div>
+        <div class="coverage-desc">IP litigation attorneys charge $400–$800/hour. Your coverage ensures you can retain qualified IP counsel without depleting your operating capital.</div>
+        <div class="coverage-amount">Covered up to policy limit</div>
+      </div>
+      <div class="coverage-card">
+        <span class="coverage-icon">🤝</span>
+        <div class="coverage-title">Settlement Costs</div>
+        <div class="coverage-desc">When settlement is the strategic choice, your coverage handles the cost — protecting your cash flow and letting you make the right decision, not the forced one.</div>
+        <div class="coverage-amount">Covered up to policy limit</div>
+      </div>
+      <div class="coverage-card" style="background:rgba(200,169,110,0.05);border-top:2px solid var(--gold);">
+        <span class="coverage-icon">📊</span>
+        <div class="coverage-title">Coverage Tiers</div>
+        <div class="coverage-desc">Coverage is structured to match your IP risk profile — from emerging businesses to established portfolios with significant brand equity.</div>
+        <div class="coverage-amount" style="display:flex;flex-direction:column;gap:4px;margin-top:16px;">
+          <span>$1M — Foundation Coverage</span>
+          <span>$5M — Growth Coverage</span>
+          <span>$10M — Enterprise Coverage</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- YOUR ROLE AS ADVISOR -->
+  <section class="alt-bg">
+    <div class="advisor-grid reveal">
+      <div>
+        <div class="section-label">Our Role</div>
+        <h2 class="section-h2">We're your trusted<br><em>advisor</em> — not a broker.</h2>
+        <p class="section-sub" style="margin-top:16px;">IP Architech™ is not an insurance company. We are your IP strategy partner. Our job is to make sure you understand your exposure, know your options, and have the right coverage integrated into your overall IP infrastructure.</p>
+        <p class="section-sub" style="margin-top:16px;">Most clients don't know they need this — until we show them what litigation actually costs. That conversation changes everything.</p>
+      </div>
+      <div>
+        <div class="advisor-steps">
+          <div class="advisor-step">
+            <div class="advisor-step-num">01</div>
+            <div class="advisor-step-content">
+              <div class="advisor-step-title">IP Risk Assessment</div>
+              <div class="advisor-step-desc">We assess your IP portfolio, identify your litigation exposure, and quantify the financial risk of operating unprotected in your specific industry and market.</div>
+            </div>
+          </div>
+          <div class="advisor-step">
+            <div class="advisor-step-num">02</div>
+            <div class="advisor-step-content">
+              <div class="advisor-step-title">Explain the Business Value</div>
+              <div class="advisor-step-desc">We walk you through what defense coverage actually costs, what it covers, and how it fits into your IP strategy — in plain language, no jargon.</div>
+            </div>
+          </div>
+          <div class="advisor-step">
+            <div class="advisor-step-num">03</div>
+            <div class="advisor-step-content">
+              <div class="advisor-step-title">Guide Your Application</div>
+              <div class="advisor-step-desc">We help you navigate the application process and connect you directly with our coverage partners — making it as simple as possible to get protected.</div>
+            </div>
+          </div>
+          <div class="advisor-step">
+            <div class="advisor-step-num">04</div>
+            <div class="advisor-step-content">
+              <div class="advisor-step-title">Integrate Into Your IP Strategy</div>
+              <div class="advisor-step-desc">Your coverage doesn't sit in a drawer — it's mapped to your IP assets, tracked in your dashboard, and reviewed as your portfolio grows.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COVERAGE TIERS -->
+  <section>
+    <div class="reveal" style="text-align:center;margin-bottom:52px;">
+      <div class="section-label" style="justify-content:center;">Coverage Tiers</div>
+      <h2 class="section-h2" style="text-align:center;">Protection scaled to<br>your <em>risk profile.</em></h2>
+    </div>
+    <div class="tiers-grid reveal">
+      <div class="tier-card">
+        <div class="tier-range">$1M</div>
+        <div class="tier-label">Foundation Defense</div>
+        <div class="tier-desc">For early-stage businesses with emerging IP assets. Covers troll defense, basic infringement claims, attorney fees, and court costs up to $1M per occurrence.</div>
+      </div>
+      <div class="tier-card" style="background:var(--card2);border-top:2px solid var(--gold);">
+        <div class="tier-range">$5M</div>
+        <div class="tier-label">Growth Defense</div>
+        <div class="tier-desc">For scaling businesses with established brand equity, creative assets, or proprietary systems. Full coverage across all five categories up to $5M per occurrence.</div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-range">$10M</div>
+        <div class="tier-label">Enterprise Defense</div>
+        <div class="tier-desc">For businesses with significant IP portfolios, licensing revenue, or industry visibility that makes them a more attractive litigation target. Maximum protection up to $10M.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band alt-bg">
+    <div class="cta-band-bg"></div>
+    <div class="cta-band-inner reveal">
+      <div class="section-label" style="justify-content:center;">Get Protected</div>
+      <h2 class="cta-h">Don't wait for a threat<br>to find out you're<br><em>unprotected.</em></h2>
+      <p class="cta-sub">Start with the free IP Audit. We'll assess your risk and show you exactly what coverage makes sense for your business.</p>
+      <button class="btn-primary" onclick="showPage('home');setTimeout(()=>document.getElementById('audit').scrollIntoView({behavior:'smooth'}),100);">Start With the Free IP Audit →</button>
+      <p class="disclaimer">IP Architech™ is a trusted advisor, not an insurance broker. Coverage is provided through our licensed insurance partners.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">IP Architech™</div>
+    <div class="footer-links">
+      <a href="#" onclick="showPage('home');return false;">Home</a>
+      <a href="#" onclick="showPage('services');return false;">Services</a>
+      <a href="#" onclick="showPage('pricing');return false;">Pricing</a>
+      <a href="#" onclick="showPage('contact');return false;">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 IP Architech™ · Not legal or financial advice · Coverage provided by licensed insurance partners</div>
+  </footer>
+</div>
+
+<script>
+// ── CURSOR ──────────────────────────────────────────────
+const cur = document.getElementById('cur');
+const curRing = document.getElementById('curRing');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top = e.clientY + 'px';
+  curRing.style.left = e.clientX + 'px';
+  curRing.style.top = e.clientY + 'px';
+});
+
+// ── NAV SCROLL ─────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ── MOBILE MENU ────────────────────────────────────────
+function toggleMenu() {
+  const b = document.getElementById('burger');
+  const m = document.getElementById('mobileMenu');
+  b.classList.toggle('open');
+  m.classList.toggle('open');
+}
+
+// ── PAGE ROUTING ───────────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const nl = document.getElementById('nl-' + id);
+  if (nl) nl.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  initReveals();
+}
+
+// ── REVEAL ON SCROLL ───────────────────────────────────
+function initReveals() {
+  setTimeout(() => {
+    const reveals = document.querySelectorAll('.reveal:not(.visible)');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => obs.observe(r));
+  }, 50);
+}
+initReveals();
+
+// ── QUIZ ───────────────────────────────────────────────
+const QS = [
+  {id:"brand",cat:"Brand Assets",icon:"®",q:"Do you have a registered trademark or brand name you use in business?",opts:[{l:"Yes, it's officially registered",v:3},{l:"Yes, but not formally registered",v:1},{l:"No, but I plan to",v:0},{l:"Not sure what counts",v:0}]},
+  {id:"content",cat:"Creative Works",icon:"©",q:"Have you created original content — logos, copy, courses, photos, videos, or software?",opts:[{l:"Yes, documented & protected",v:3},{l:"Yes, but not formally documented",v:1},{l:"Somewhat — a few things",v:1},{l:"Not really",v:0}]},
+  {id:"domains",cat:"Digital Assets",icon:"🌐",q:"Do you own domain names, social handles, or digital properties tied to your brand?",opts:[{l:"Yes, all tracked and organized",v:3},{l:"Yes, but I lose track of renewals",v:1},{l:"A few, not really managed",v:0},{l:"Not sure what I own",v:0}]},
+  {id:"licensing",cat:"Licensing & Agreements",icon:"📄",q:"Do you license your IP to others, or use IP licensed from other businesses?",opts:[{l:"Yes, with proper agreements",v:3},{l:"Yes, but agreements are informal",v:1},{l:"No, but I want to",v:0},{l:"Doesn't apply to me",v:0}]},
+  {id:"renewals",cat:"Renewal Tracking",icon:"⏱",q:"How do you currently track IP renewal deadlines?",opts:[{l:"I have a dedicated system",v:3},{l:"Calendar reminders — mostly",v:2},{l:"I rely on email notices",v:1},{l:"I don't track them",v:0}]},
+  {id:"lender",cat:"Lender-Ready Packaging",icon:"🏦",q:"If a lender or investor asked for your IP portfolio today, could you produce it?",opts:[{l:"Yes — documents are ready",v:3},{l:"I could, but it'd take a while",v:1},{l:"No, I'd struggle",v:0},{l:"I've never thought about this",v:0}]},
+  {id:"secrets",cat:"Trade Secrets",icon:"🔒",q:"Do you have proprietary processes or systems that give your business an edge?",opts:[{l:"Yes, documented and protected",v:3},{l:"Yes, mostly in my head",v:1},{l:"Somewhat — nothing formal",v:1},{l:"No",v:0}]},
+  {id:"automation",cat:"Systems & Workflows",icon:"⚙️",q:"How organized are your IP documentation and workflows?",opts:[{l:"Very — everything is systematized",v:3},{l:"Somewhat — basic systems",v:2},{l:"Disorganized — files everywhere",v:0},{l:"I don't have workflows for this",v:0}]},
+];
+
+let qCur=0, qAnswers={}, qSel=null, qSelVal=null, qState='quiz';
+
+function getResult(score,ans){
+  const max=QS.length*3, pct=(score/max)*100;
+  const gaps=[];
+  if((ans.renewals||0)<=1)gaps.push("renewal tracking");
+  if((ans.lender||0)<=1)gaps.push("lender-ready documentation");
+  if((ans.content||0)<=1)gaps.push("creative asset documentation");
+  if((ans.licensing||0)<=1)gaps.push("licensing management");
+  if((ans.automation||0)<=1)gaps.push("workflow organization");
+  if(pct>=75)return{tier:"IP Architech",color:"#3DBD8F",h:"Your IP foundation is strong — now optimize it.",p:"You have solid systems in place, but there's room to systematize, automate, and package your IP for maximum leverage.",gaps,rec:"IP Intelligence Dashboard + Lender-Ready IP Packaging",cta:"Upgrade your IP systems and make your portfolio investor-ready.",score};
+  if(pct>=45)return{tier:"IP Builder",color:"#C8A96E",h:"You own valuable IP — but it's working against you.",p:"You have real assets, but gaps in tracking, documentation, and organization are leaving money and protection on the table.",gaps,rec:"IP Compliance Calendar + Renewal Countdown System + Documentation Workflows",cta:"Get your IP organized before a missed deadline or lost asset costs you.",score};
+  return{tier:"IP Starter",color:"#D94F4F",h:"Your IP is exposed — and you may not know it.",p:"Most small business owners in your position are one missed renewal or unprotected asset away from a serious problem.",gaps,rec:"IP Intelligence Dashboard + Digital Asset Organization System + No-Code Automation Workflows",cta:"Start building your IP foundation today — before gaps become costly mistakes.",score};
+}
+
+function renderQuiz(){
+  const shell=document.getElementById('quizShell');
+  if(!shell)return;
+  if(qState==='quiz'){
+    const q=QS[qCur], pct=(qCur/QS.length)*100;
+    shell.innerHTML=`<div class="quiz-anim">
+      <div class="q-prog-meta"><span class="q-prog-label">${q.cat}</span><span class="q-prog-count">${qCur+1} / ${QS.length}</span></div>
+      <div class="q-prog-track"><div class="q-prog-fill" style="width:${pct}%"></div></div>
+      <span class="q-icon">${q.icon}</span>
+      <div class="q-cat">${q.cat}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-opts">${q.opts.map((o,i)=>`<button class="q-opt${qSel===i?' sel':''}" onclick="qSelect(${i},${o.v})"><span class="q-letter">${String.fromCharCode(65+i)}</span>${o.l}</button>`).join('')}</div>
+      <button class="q-next" onclick="qNext()" ${qSel===null?'disabled':''}>${qCur+1===QS.length?'See My Results →':'Next Question →'}</button>
+    </div>`;
+  } else {
+    const total=Object.values(qAnswers).reduce((a,b)=>a+b,0);
+    const r=getResult(total,qAnswers);
+    const max=QS.length*3, pct=Math.round((r.score/max)*100);
+    shell.innerHTML=`<div class="quiz-anim" style="text-align:center">
+      <div class="r-tier">${r.tier}</div>
+      <div class="r-h">${r.h}</div>
+      <div class="r-p">${r.p}</div>
+      <div class="r-div"></div>
+      <div class="r-score-row"><span class="r-score-lbl">IP Organization Score</span><span style="font-family:'DM Mono',monospace;font-size:9px;color:${r.color}">${r.score} / ${max}</span></div>
+      <div class="r-score-track"><div class="r-score-fill" id="rFill" style="width:0%;background:${r.color}"></div></div>
+      ${r.gaps.length?`<div class="gaps-lbl">Gaps Identified</div><div style="margin-bottom:18px;">${r.gaps.map(g=>`<span class="gap-tag">${g}</span>`).join('')}</div>`:''}
+      <div class="rec-box"><div class="rec-lbl">Recommended for You</div><div class="rec-val">${r.rec}</div></div>
+      <div class="cta-box"><div class="cta-box-p">${r.cta}</div>
+      <button class="q-next" onclick="showPage('contact')" style="margin-bottom:8px;">Get My IP System →</button><br>
+      <button class="retake" onclick="qRestart()">Retake Quiz</button></div>
+    </div>`;
+    setTimeout(()=>{const f=document.getElementById('rFill');if(f)f.style.width=pct+'%';},120);
+  }
+}
+
+function qSelect(idx,val){
+  qSel=idx;qSelVal=val;
+  document.querySelectorAll('.q-opt').forEach((b,i)=>b.classList.toggle('sel',i===idx));
+  const nb=document.querySelector('.q-next');if(nb)nb.disabled=false;
+}
+function qNext(){
+  if(qSel===null)return;
+  qAnswers[QS[qCur].id]=qSelVal;
+  qSel=null;qSelVal=null;
+  if(qCur+1>=QS.length){qState='result';}else{qCur++;}
+  renderQuiz();
+}
+function qRestart(){qCur=0;qAnswers={};qSel=null;qSelVal=null;qState='quiz';renderQuiz();}
+
+renderQuiz();
+</script>
+</body>
+</html>
